@@ -43,7 +43,27 @@ docker run --rm -p 8080:8080 --read-only --tmpfs /tmp nota-aberta
 ```
 
 O build baixa o motor oficial no commit fixado, gera a base de tabelas com o flyway da própria Receita e compila o
-jar. Precisa de acesso a `github.com` e ao Maven Central só no build; em execução, nada sai da máquina.
+jar. Esse comando liga a calculadora pública; cadastro e emissão exigem a configuração abaixo.
+
+### Habilitar cadastro e emissão localmente
+
+Copie `.env.example` para `.env` e preencha `NOTA_SEGREDO_SESSAO` e `NOTA_CHAVE_MESTRA` com os
+comandos indicados no arquivo. Preencha também `GOOGLE_CLIENT_ID` e `GOOGLE_CLIENT_SECRET` do seu cliente OAuth.
+O endereço de retorno usado pela aplicação local é `http://localhost:8080/entrar/google/retorno`;
+ele precisa estar autorizado no cliente Google. Não publique o arquivo `.env`.
+
+Pare o container anterior antes de executar:
+
+```bash
+docker build -t nota-aberta . &&
+docker run --rm -p 8080:8080 --read-only --tmpfs /tmp \
+  --env-file .env --mount source=nota-aberta-dados,target=/data nota-aberta
+```
+
+O volume guarda contas e certificados entre reinicializações e é gravável pelo usuário do container.
+Guarde a chave mestra junto com o backup do banco: trocar a chave impede abrir os certificados existentes.
+Sem `NOTA_DB` e um segredo de sessão de pelo menos 32 caracteres, as rotas de conta retornam `conta_desligada`.
+A emissão permanece em produção restrita (`NOTA_PRODUCAO=0`). Login e emissão precisam acessar os serviços externos.
 
 ## Exemplo pela API
 

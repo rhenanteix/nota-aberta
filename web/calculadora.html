@@ -1,125 +1,260 @@
 <!doctype html>
 <html lang="pt-BR">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Calculadora CBS e IBS</title>
-<meta name="description" content="Calcule CBS, IBS estadual e IBS municipal da Reforma Tributária (LC 214/2025) com o motor oficial que a Receita Federal publicou em código aberto. Grátis, sem cadastro, com memória de cálculo e API.">
-<meta name="robots" content="index, follow">
-<link rel="stylesheet" href="estilo.css">
-<link rel="icon" href="icone.svg" type="image/svg+xml">
-</head>
-<body>
-<header class="topo">
-  <div class="caixa">
-    <p class="selo">Reforma Tributária do Consumo · LC 214/2025</p>
-    <h1>Calculadora de CBS e IBS</h1>
-    <p class="sub">O cálculo é feito pelo <strong>motor oficial</strong> que a Receita Federal publicou em código aberto, sem nenhuma alteração. Grátis, sem cadastro, e cada valor vem com a memória de cálculo.</p>
-    <p class="versao" id="versao">Carregando a versão do motor…</p>
-  </div>
-</header>
-
-<main class="caixa">
-  <form id="form" novalidate>
-    <section class="cartao">
-      <h2>1. A operação</h2>
-      <div class="grade3">
-        <label>Data do fato gerador
-          <input type="date" id="data" required>
-        </label>
-        <label>UF
-          <select id="uf" required><option value="">Carregando…</option></select>
-        </label>
-        <label>Município
-          <select id="municipio" required disabled><option value="">Escolha a UF</option></select>
-        </label>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#5b4bff" />
+    <title>Calculadora CBS e IBS · Emite Ai</title>
+    <meta
+      name="description"
+      content="Calcule CBS, IBS estadual e IBS municipal da Reforma Tributária (LC 214/2025) com o motor oficial da Receita Federal. Grátis, sem cadastro, com memória de cálculo e API."
+    />
+    <meta name="robots" content="index, follow" />
+    <link rel="stylesheet" href="estilo.css" />
+    <link rel="icon" href="icone.svg" type="image/svg+xml" />
+  </head>
+  <body class="app-page">
+    <a class="pular" href="#conteudo">Pular para o conteúdo</a>
+    <header class="barra">
+      <div class="caixa nav">
+        <a class="marca" href="/" aria-label="Emite Ai, início"
+          ><span class="marca-icone" aria-hidden="true">e.</span>emite<span
+            class="marca-ai"
+            >ai</span
+          ></a
+        >
+        <nav class="nav-links" aria-label="Principal">
+          <a href="/index.html#recursos">Produto</a
+          ><a href="/calculadora.html">Calculadora</a
+          ><a href="/index.html#mcp">Para devs</a
+          ><a href="/roadmap.html">Evolução</a
+          ><a href="/index.html#precos">Preços</a
+          ><a class="botao" href="/entrar/google"
+            >Entrar <span aria-hidden="true">↗</span></a
+          >
+        </nav>
       </div>
-    </section>
-
-    <section class="cartao">
-      <h2>2. Alíquotas nominais (%)</h2>
-      <p class="dica" id="dica-aliq">Preenchidas com as alíquotas de referência da data, UF e município. Você pode trocar.</p>
-      <div class="grade3">
-        <label>CBS
-          <input type="number" id="a-cbs" step="0.0001" min="0" max="100" inputmode="decimal" required>
-        </label>
-        <label>IBS estadual
-          <input type="number" id="a-uf" step="0.0001" min="0" max="100" inputmode="decimal" required>
-        </label>
-        <label>IBS municipal
-          <input type="number" id="a-mun" step="0.0001" min="0" max="100" inputmode="decimal" required>
-        </label>
+    </header>
+    <header class="topo">
+      <div class="caixa">
+        <p class="selo">Reforma Tributária do Consumo · LC 214/2025</p>
+        <h1>Calculadora de CBS e IBS</h1>
+        <p class="sub">
+          O cálculo é feito pelo <strong>motor oficial</strong> da Receita
+          Federal, sem nenhuma alteração. Grátis, sem cadastro, e cada valor vem
+          com a memória de cálculo.
+        </p>
+        <p class="versao" id="versao">Carregando a versão do motor…</p>
       </div>
-    </section>
+    </header>
 
-    <section class="cartao">
-      <h2>3. Itens</h2>
-      <div id="itens"></div>
-      <button type="button" class="secundario" id="mais">+ Adicionar item</button>
-    </section>
+    <main class="caixa" id="conteudo">
+      <form id="form" novalidate>
+        <section class="cartao">
+          <h2>1. A operação</h2>
+          <div class="grade3">
+            <label
+              >Data do fato gerador
+              <input type="date" id="data" required />
+            </label>
+            <label
+              >UF
+              <select id="uf" required>
+                <option value="">Carregando…</option>
+              </select>
+            </label>
+            <label
+              >Município
+              <select id="municipio" required disabled>
+                <option value="">Escolha a UF</option>
+              </select>
+            </label>
+          </div>
+        </section>
 
-    <div class="acoes">
-      <button type="submit" id="calcular">Calcular</button>
-      <button type="button" class="secundario" id="exemplo">Carregar exemplo da Receita</button>
-    </div>
-  </form>
+        <section class="cartao">
+          <h2>2. Alíquotas nominais (%)</h2>
+          <p class="dica" id="dica-aliq">
+            Preenchidas com as alíquotas de referência da data, UF e município.
+            Você pode trocar.
+          </p>
+          <div class="grade3">
+            <label
+              >CBS
+              <input
+                type="number"
+                id="a-cbs"
+                step="0.0001"
+                min="0"
+                max="100"
+                inputmode="decimal"
+                required
+              />
+            </label>
+            <label
+              >IBS estadual
+              <input
+                type="number"
+                id="a-uf"
+                step="0.0001"
+                min="0"
+                max="100"
+                inputmode="decimal"
+                required
+              />
+            </label>
+            <label
+              >IBS municipal
+              <input
+                type="number"
+                id="a-mun"
+                step="0.0001"
+                min="0"
+                max="100"
+                inputmode="decimal"
+                required
+              />
+            </label>
+          </div>
+        </section>
 
-  <section id="resultado" class="cartao" hidden aria-live="polite"></section>
+        <section class="cartao">
+          <h2>3. Itens</h2>
+          <div id="itens"></div>
+          <button type="button" class="secundario" id="mais">
+            + Adicionar item
+          </button>
+        </section>
 
-  <section class="cartao">
-    <h2>Como funciona</h2>
-    <ul class="lista">
-      <li><strong>Valor do tributo = base de cálculo × alíquota efetiva</strong>, e a alíquota efetiva é a nominal menos a redução prevista na classificação tributária (cClassTrib). Ex.: CBS 8,8% com redução de 60% vira 3,52%.</li>
-      <li>A situação tributária (CST) e a classificação (cClassTrib) vêm das tabelas oficiais da data escolhida. A classificação diz se o item usa NCM (mercadoria) ou NBS (serviço).</li>
-      <li>Em 2026, ano de teste, as alíquotas são as de referência do período (CBS 0,9% e IBS 0,1%) e o motor não aceita outras. A partir de 2027 quem emite informa a alíquota nominal. Quando o motor marca um item como <em>cálculo simulado</em>, é ele avisando que aquela regra ainda não é definitiva.</li>
-      <li>Imposto Seletivo, NFS-e, base de cálculo unificada e geração de XML estão na API (abaixo); esta tela cobre o caso mais comum.</li>
-    </ul>
-  </section>
+        <div class="acoes">
+          <button type="submit" id="calcular">Calcular</button>
+          <button type="button" class="secundario" id="exemplo">
+            Carregar exemplo da Receita
+          </button>
+        </div>
+      </form>
 
-  <section class="cartao">
-    <h2>API grátis para sistemas e agentes</h2>
-    <p>A mesma API da Receita, aberta, em <code>/api</code>. Documentação interativa: <a href="/api/swagger-ui.html">Swagger</a>. Teto de 120 pedidos por minuto por IP.</p>
-    <p>Para agentes de IA: MCP em <code>/mcp</code> (ferramentas <code>calcular_cbs_ibs</code>, <code>tabelas_cbs_ibs</code>, <code>aliquotas_referencia</code> e <code>versao_motor</code>).</p>
-<pre><code>curl -X POST https://<span id="host">este-site</span>/api/calculadora/observabilidade/regime-geral \
+      <section
+        id="resultado"
+        class="cartao"
+        hidden
+        aria-live="polite"
+      ></section>
+
+      <section class="cartao">
+        <h2>Como funciona</h2>
+        <ul class="lista">
+          <li>
+            <strong
+              >Valor do tributo = base de cálculo × alíquota efetiva</strong
+            >, e a alíquota efetiva é a nominal menos a redução prevista na
+            classificação tributária (cClassTrib). Ex.: CBS 8,8% com redução de
+            60% vira 3,52%.
+          </li>
+          <li>
+            A situação tributária (CST) e a classificação (cClassTrib) vêm das
+            tabelas oficiais da data escolhida. A classificação diz se o item
+            usa NCM (mercadoria) ou NBS (serviço).
+          </li>
+          <li>
+            Em 2026, ano de teste, as alíquotas são as de referência do período
+            (CBS 0,9% e IBS 0,1%) e o motor não aceita outras. A partir de 2027
+            quem emite informa a alíquota nominal. Quando o motor marca um item
+            como <em>cálculo simulado</em>, é ele avisando que aquela regra
+            ainda não é definitiva.
+          </li>
+          <li>
+            Imposto Seletivo, NFS-e, base de cálculo unificada e geração de XML
+            estão na API (abaixo); esta tela cobre o caso mais comum.
+          </li>
+        </ul>
+      </section>
+
+      <section class="cartao">
+        <h2>API grátis para sistemas e agentes</h2>
+        <p>
+          A mesma API da Receita, pública, em <code>/api</code>. Documentação
+          interativa: <a href="/api/swagger-ui.html">Swagger</a>. Teto de 120
+          pedidos por minuto por IP.
+        </p>
+        <p>
+          Para agentes de IA: MCP em <code>/mcp</code> (ferramentas
+          <code>calcular_cbs_ibs</code>, <code>tabelas_cbs_ibs</code>,
+          <code>aliquotas_referencia</code> e <code>versao_motor</code>).
+        </p>
+        <pre><code>curl -X POST https://<span id="host">este-site</span>/api/calculadora/observabilidade/regime-geral \
   -H 'Content-Type: application/json' -d @operacao.json</code></pre>
-  </section>
+      </section>
 
-  <p class="aviso">Este site não é da Receita Federal. Ele roda, sem alterar, o código que a Receita publicou sob licença MIT em
-  <a href="https://github.com/ReceitaFederal/calculadora-rtc-regime-regular" rel="noopener">github.com/ReceitaFederal/calculadora-rtc-regime-regular</a>.
-  A publicação foi autorizada pela Portaria Cotec nº 342/2026, que registra o commit desta versão. Decisão judicial ou interpretação tributária diferente pode exigir adaptação, e a Receita não dá garantia, suporte nem efeito vinculante ao código. O resultado é informativo: confira com o seu contador antes de emitir documento fiscal. Nada do que você digita é guardado.</p>
-</main>
+      <p class="aviso">
+        Este site não é da Receita Federal. O cálculo usa o motor oficial
+        disponibilizado pela Receita Federal, sem alteração. A disponibilização
+        foi autorizada pela Portaria Cotec nº 342/2026, que registra a versão do
+        motor. Decisão judicial ou interpretação tributária diferente pode exigir
+        adaptação, e a Receita não dá garantia, suporte nem efeito vinculante ao
+        código. O resultado é informativo: confira com o seu contador antes de
+        emitir documento fiscal. Nada do que você digita é guardado.
+      </p>
+    </main>
 
-<template id="tpl-item">
-  <fieldset class="item">
-    <legend>Item <span class="n"></span></legend>
-    <div class="grade4">
-      <label>CST
-        <select class="cst" required></select>
-      </label>
-      <label class="largo">Classificação tributária (cClassTrib)
-        <select class="cclass" required></select>
-      </label>
-      <label>Código
-        <span class="linha">
-          <select class="tipo" aria-label="Tipo de código"><option value="ncm">NCM</option><option value="nbs">NBS</option></select>
-          <input class="codigo" inputmode="numeric" pattern="[0-9.]*" placeholder="10063021" required>
-        </span>
-      </label>
-      <label>Base de cálculo (R$)
-        <input class="base" type="number" step="0.01" min="0" inputmode="decimal" required>
-      </label>
-      <label>Quantidade
-        <input class="qtd" type="number" step="any" min="0" value="1">
-      </label>
-      <label>Unidade
-        <input class="un" value="UN" maxlength="6">
-      </label>
-    </div>
-    <p class="info-class"></p>
-    <button type="button" class="remover secundario">Remover item</button>
-  </fieldset>
-</template>
+    <template id="tpl-item">
+      <fieldset class="item">
+        <legend>Item <span class="n"></span></legend>
+        <div class="grade4">
+          <label
+            >CST
+            <select class="cst" required></select>
+          </label>
+          <label class="largo"
+            >Classificação tributária (cClassTrib)
+            <select class="cclass" required></select>
+          </label>
+          <label
+            >Código
+            <span class="linha">
+              <select class="tipo" aria-label="Tipo de código">
+                <option value="ncm">NCM</option>
+                <option value="nbs">NBS</option>
+              </select>
+              <input
+                class="codigo"
+                inputmode="numeric"
+                pattern="[0-9.]*"
+                placeholder="10063021"
+                required
+              />
+            </span>
+          </label>
+          <label
+            >Base de cálculo (R$)
+            <input
+              class="base"
+              type="number"
+              step="0.01"
+              min="0"
+              inputmode="decimal"
+              required
+            />
+          </label>
+          <label
+            >Quantidade
+            <input class="qtd" type="number" step="any" min="0" value="1" />
+          </label>
+          <label
+            >Unidade
+            <input class="un" value="UN" maxlength="6" />
+          </label>
+        </div>
+        <p class="info-class"></p>
+        <button type="button" class="remover secundario">Remover item</button>
+      </fieldset>
+    </template>
 
-<script src="app.js"></script>
-</body>
+    <script src="app.js"></script>
+    <footer class="rodape caixa">
+      <a class="marca" href="/">emite<span class="marca-ai">ai</span></a
+      ><span>Menos burocracia. Mais espaço para crescer.</span
+      ><a href="/entrar/google">Começar agora ↗</a>
+    </footer>
+  </body>
 </html>

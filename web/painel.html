@@ -1,103 +1,243 @@
 <!doctype html>
 <html lang="pt-BR">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Painel Nota Aberta</title>
-<meta name="robots" content="noindex">
-<link rel="stylesheet" href="estilo.css">
-<link rel="icon" href="icone.svg" type="image/svg+xml">
-</head>
-<body>
-<header class="barra">
-  <div class="caixa nav"><a class="marca" href="/">Nota Aberta</a>
-    <span class="nav-links"><span id="quem"></span><a href="/calculadora.html">Calculadora</a><a href="/sair">Sair</a></span></div>
-</header>
-<main class="caixa">
-  <p id="ambiente" class="faixa" hidden></p>
-  <section id="fora" class="cartao" hidden>
-    <h2>Entre para emitir</h2>
-    <p>Use a sua conta Google. Nenhuma senha nova.</p>
-    <a class="botao" href="/entrar/google">Entrar com Google</a>
-  </section>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#5b4bff" />
+    <title>Painel Emite Ai</title>
+    <meta name="robots" content="noindex" />
+    <link rel="stylesheet" href="estilo.css" />
+    <link rel="icon" href="icone.svg" type="image/svg+xml" />
+  </head>
+  <body class="app-page">
+    <a class="pular" href="#conteudo">Pular para o conteúdo</a>
+    <header class="barra">
+      <div class="caixa nav">
+        <a class="marca" href="/"
+          ><span class="marca-icone" aria-hidden="true">e.</span>emite<span
+            class="marca-ai"
+            >ai</span
+          ></a
+        >
+        <span class="nav-links"
+          ><span id="quem"></span><a href="/calculadora.html">Calculadora</a
+          ><a href="/sair">Sair</a></span
+        >
+      </div>
+    </header>
+    <main class="caixa" id="conteudo">
+      <div class="app-heading">
+        <p class="eyebrow">SEU ESPAÇO DE TRABALHO</p>
+        <h1>Vamos fazer acontecer.</h1>
+        <p>Suas empresas, suas notas e o próximo passo. Tudo por aqui.</p>
+      </div>
+      <p id="ambiente" class="faixa" hidden></p>
+      <section id="fora" class="cartao" hidden>
+        <h2>Entre para emitir</h2>
+        <p>Use a sua conta Google. Nenhuma senha nova.</p>
+        <a class="botao" href="/entrar/google">Entrar com Google</a>
+      </section>
 
-  <div id="dentro" hidden>
-    <section class="cartao" id="plano"></section>
+      <div id="dentro" hidden>
+        <section class="cartao" id="plano"></section>
 
-    <section class="cartao">
-      <h2>Emitir nota de serviço</h2>
-      <form id="f-emitir" class="grade3">
-        <label>Empresa <select name="empresa" required></select></label>
-        <label>Código de tributação nacional <input name="codigo_servico" inputmode="numeric" pattern="\d{6}" placeholder="010101" required></label>
-        <label>Valor (R$) <input name="valor" inputmode="decimal" placeholder="1500,00" required></label>
-        <label class="largo3">Descrição do serviço <input name="descricao" maxlength="2000" required></label>
-        <label>CPF/CNPJ do tomador <input name="doc" inputmode="numeric"></label>
-        <label>Nome do tomador <input name="nome"></label>
-        <label>E-mail do tomador <input name="email" type="email"></label>
-        <details class="largo3" id="end-tomador"><summary>Endereço do tomador (opcional)</summary>
-          <div class="grade3">
-            <label>CEP <input name="cep" inputmode="numeric" placeholder="88000-000" autocomplete="off"></label>
-            <label class="largo">Logradouro <input name="logradouro" maxlength="255"></label>
-            <label>Número <input name="numero" maxlength="60" placeholder="S/N"></label>
-            <label>Complemento <input name="complemento" maxlength="156"></label>
-            <label>Bairro <input name="bairro" maxlength="60"></label>
-            <label>Município <input name="cidade" readonly tabindex="-1" placeholder="sai do CEP"><input name="municipio_ibge" type="hidden"></label>
-            <p class="dica largo3" id="r-cep"></p>
+        <section class="cartao">
+          <h2>Emitir nota de serviço</h2>
+          <form id="f-emitir" class="grade3">
+            <label
+              >Empresa
+              <select name="empresa" required></select
+            ></label>
+            <label
+              >Código de tributação nacional
+              <input
+                name="codigo_servico"
+                inputmode="numeric"
+                pattern="\d{6}"
+                placeholder="010101"
+                required
+            /></label>
+            <label
+              >Valor (R$)
+              <input
+                name="valor"
+                inputmode="decimal"
+                placeholder="1500,00"
+                required
+            /></label>
+            <label class="largo3"
+              >Descrição do serviço
+              <input name="descricao" maxlength="2000" required
+            /></label>
+            <label
+              >CPF/CNPJ do tomador <input name="doc" inputmode="numeric"
+            /></label>
+            <label>Nome do tomador <input name="nome" /></label>
+            <label>E-mail do tomador <input name="email" type="email" /></label>
+            <details class="largo3" id="end-tomador">
+              <summary>Endereço do tomador (opcional)</summary>
+              <div class="grade3">
+                <label
+                  >CEP
+                  <input
+                    name="cep"
+                    inputmode="numeric"
+                    placeholder="88000-000"
+                    autocomplete="off"
+                /></label>
+                <label class="largo"
+                  >Logradouro <input name="logradouro" maxlength="255"
+                /></label>
+                <label
+                  >Número <input name="numero" maxlength="60" placeholder="S/N"
+                /></label>
+                <label
+                  >Complemento <input name="complemento" maxlength="156"
+                /></label>
+                <label>Bairro <input name="bairro" maxlength="60" /></label>
+                <label
+                  >Município
+                  <input
+                    name="cidade"
+                    readonly
+                    tabindex="-1"
+                    placeholder="sai do CEP" /><input
+                    name="municipio_ibge"
+                    type="hidden"
+                /></label>
+                <p class="dica largo3" id="r-cep"></p>
+              </div>
+            </details>
+            <label
+              >Competência (quando o serviço foi prestado)
+              <input name="competencia" type="date" required
+            /></label>
+            <label
+              >NBS (opcional, 9 dígitos)
+              <input
+                name="nbs"
+                inputmode="numeric"
+                pattern="\d{9}"
+                placeholder="115021000"
+            /></label>
+            <p class="dica largo3" id="dica-repetir" hidden></p>
+            <fieldset class="largo3 ambiente-escolha">
+              <legend>Tipo de nota</legend>
+              <label class="opcao"
+                ><input
+                  type="radio"
+                  name="ambiente"
+                  value="teste"
+                  checked
+                /><span
+                  ><strong>Teste</strong> · sem valor fiscal, vai para o
+                  ambiente de teste do governo</span
+                ></label
+              >
+              <label class="opcao"
+                ><input type="radio" name="ambiente" value="producao" /><span
+                  ><strong>Valor fiscal</strong> · nota de verdade, gera
+                  imposto</span
+                ></label
+              >
+            </fieldset>
+            <div class="largo3 acoes">
+              <button type="submit" id="b-emitir">Emitir nota de teste</button
+              ><span class="dica" id="r-emitir"></span>
+            </div>
+          </form>
+        </section>
+
+        <section class="cartao">
+          <h2>Empresas</h2>
+          <div id="empresas"></div>
+          <details>
+            <summary>Adicionar empresa</summary>
+            <form id="f-empresa" class="grade3">
+              <label
+                >CNPJ <input name="cnpj" inputmode="numeric" required
+              /></label>
+              <label class="largo"
+                >Razão social <input name="razao" required
+              /></label>
+              <label
+                >UF
+                <select name="uf" required>
+                  <option value="">Carregando…</option>
+                </select></label
+              >
+              <label
+                >Município
+                <select name="municipio" required disabled>
+                  <option value="">Escolha a UF</option>
+                </select></label
+              >
+              <label
+                >Regime
+                <select name="regime">
+                  <option value="simples">Simples Nacional (ME/EPP)</option>
+                  <option value="mei">MEI</option>
+                  <option value="normal">Regime normal</option>
+                </select></label
+              >
+              <div class="largo3 acoes">
+                <button type="submit">Adicionar</button
+                ><span class="dica" id="r-empresa"></span>
+              </div>
+            </form>
+          </details>
+        </section>
+
+        <section class="cartao">
+          <h2>Últimas notas</h2>
+          <div id="notas">
+            <p class="dica">Escolha a empresa no formulário de emissão.</p>
           </div>
-        </details>
-        <label>Competência (quando o serviço foi prestado) <input name="competencia" type="date" required></label>
-        <label>NBS (opcional, 9 dígitos) <input name="nbs" inputmode="numeric" pattern="\d{9}" placeholder="115021000"></label>
-        <p class="dica largo3" id="dica-repetir" hidden></p>
-        <fieldset class="largo3 ambiente-escolha"><legend>Tipo de nota</legend>
-          <label class="opcao"><input type="radio" name="ambiente" value="teste" checked><span><strong>Teste</strong> · sem valor fiscal, vai para o ambiente de teste do governo</span></label>
-          <label class="opcao"><input type="radio" name="ambiente" value="producao"><span><strong>Valor fiscal</strong> · nota de verdade, gera imposto</span></label>
-        </fieldset>
-        <div class="largo3 acoes"><button type="submit" id="b-emitir">Emitir nota de teste</button><span class="dica" id="r-emitir"></span></div>
-      </form>
-    </section>
+        </section>
 
-    <section class="cartao">
-      <h2>Empresas</h2>
-      <div id="empresas"></div>
-      <details><summary>Adicionar empresa</summary>
-        <form id="f-empresa" class="grade3">
-          <label>CNPJ <input name="cnpj" inputmode="numeric" required></label>
-          <label class="largo">Razão social <input name="razao" required></label>
-          <label>UF <select name="uf" required><option value="">Carregando…</option></select></label>
-          <label>Município <select name="municipio" required disabled><option value="">Escolha a UF</option></select></label>
-          <label>Regime <select name="regime"><option value="simples">Simples Nacional (ME/EPP)</option><option value="mei">MEI</option><option value="normal">Regime normal</option></select></label>
-          <div class="largo3 acoes"><button type="submit">Adicionar</button><span class="dica" id="r-empresa"></span></div>
+        <section class="cartao">
+          <h2>Chaves de API e MCP</h2>
+          <p class="dica">
+            Para o seu sistema ou agente emitir por você. A chave aparece uma
+            vez só.
+          </p>
+          <div id="chaves"></div>
+          <form id="f-chave" class="acoes">
+            <input
+              name="nome"
+              placeholder="nome da chave (ex.: meu ERP)"
+            /><button type="submit" class="secundario">Criar chave</button>
+          </form>
+          <p id="chave-nova" class="faixa" hidden></p>
+        </section>
+      </div>
+    </main>
+    <template id="tpl-empresa">
+      <article class="empresa">
+        <h3 class="e-nome"></h3>
+        <p class="dica e-info"></p>
+        <form class="f-cert acoes">
+          <label
+            >Certificado A1 (.pfx)
+            <input type="file" name="pfx" accept=".pfx,.p12" required
+          /></label>
+          <label
+            >Senha do certificado
+            <input type="password" name="senha" autocomplete="off" required
+          /></label>
+          <button type="submit" class="secundario">Guardar certificado</button>
+          <button type="button" class="secundario apagar-cert" hidden>
+            Apagar certificado
+          </button>
+          <span class="dica r-cert"></span>
         </form>
-      </details>
-    </section>
-
-    <section class="cartao">
-      <h2>Últimas notas</h2>
-      <div id="notas"><p class="dica">Escolha a empresa no formulário de emissão.</p></div>
-    </section>
-
-    <section class="cartao">
-      <h2>Chaves de API e MCP</h2>
-      <p class="dica">Para o seu sistema ou agente emitir por você. A chave aparece uma vez só.</p>
-      <div id="chaves"></div>
-      <form id="f-chave" class="acoes"><input name="nome" placeholder="nome da chave (ex.: meu ERP)"><button type="submit" class="secundario">Criar chave</button></form>
-      <p id="chave-nova" class="faixa" hidden></p>
-    </section>
-  </div>
-</main>
-<template id="tpl-empresa">
-  <article class="empresa">
-    <h3 class="e-nome"></h3>
-    <p class="dica e-info"></p>
-    <form class="f-cert acoes">
-      <label>Certificado A1 (.pfx) <input type="file" name="pfx" accept=".pfx,.p12" required></label>
-      <label>Senha do certificado <input type="password" name="senha" autocomplete="off" required></label>
-      <button type="submit" class="secundario">Guardar certificado</button>
-      <button type="button" class="secundario apagar-cert" hidden>Apagar certificado</button>
-      <span class="dica r-cert"></span>
-    </form>
-  </article>
-</template>
-<script src="painel.js"></script>
-</body>
+      </article>
+    </template>
+    <script src="painel.js"></script>
+    <footer class="rodape caixa">
+      <a class="marca" href="/">emite<span class="marca-ai">ai</span></a
+      ><span>Menos burocracia. Mais espaço para crescer.</span
+      ><a href="/entrar/google">Começar agora ↗</a>
+    </footer>
+  </body>
 </html>

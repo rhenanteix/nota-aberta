@@ -54,6 +54,7 @@ COPY --from=motor /src/native/libsqlitejdbc.so /rtc/native/libsqlitejdbc.so
 COPY --from=motor /src/LICENSE /rtc/LICENSE-receita-federal
 COPY --from=danfse /src/danfse-service /rtc/danfse-service
 WORKDIR /app
+RUN mkdir -p /data && chown 10001:10001 /data
 COPY *.py planos.json sistema.json ./
 COPY web ./web
 USER 10001

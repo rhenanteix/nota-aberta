@@ -17,7 +17,7 @@ fetch("/conta/planos").then((r) => r.ok ? r.json() : Promise.reject(r.status)).t
       <a class="botao${i === meio ? "" : " secundario"}" href="/entrar/google">${!p.preco_mes ? "Começar grátis" : p.teste_dias ? `Testar ${esc(p.teste_dias)} dias` : "Assinar"}</a>
     </article>`);
   if (sm && sm.texto) {
-    const zap = sm.whatsapp ? `https://wa.me/${encodeURIComponent(sm.whatsapp)}?text=${encodeURIComponent("Quero um plano sob medida da Nota Aberta")}` : "";
+    const zap = sm.whatsapp ? `https://wa.me/${encodeURIComponent(sm.whatsapp)}?text=${encodeURIComponent("Quero um plano sob medida da Emite Ai")}` : "";
     cartoes.push(`
     <article class="plano">
       <h3>${esc(sm.nome || "Sob medida")}</h3>
