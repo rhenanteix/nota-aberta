@@ -4,11 +4,6 @@
   "buildCommand": "echo 'static site'",
   "installCommand": "echo 'no install'",
   "outputDirectory": "web",
-  "functions": {
-    "api/index.py": {
-      "runtime": "python3.12"
-    }
-  },
   "rewrites": [
     {
       "source": "/api/:path*",
