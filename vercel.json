@@ -7,23 +7,23 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://nota-aberta.vercel.app/api/:path*"
+      "destination": "/api/:path*"
     },
     {
       "source": "/conta/:path*",
-      "destination": "https://nota-aberta.vercel.app/conta/:path*"
+      "destination": "/conta/:path*"
     },
     {
       "source": "/entrar/:path*",
-      "destination": "https://nota-aberta.vercel.app/entrar/:path*"
+      "destination": "/entrar/:path*"
     },
     {
       "source": "/sair",
-      "destination": "https://nota-aberta.vercel.app/sair"
+      "destination": "/sair"
     },
     {
       "source": "/mcp",
-      "destination": "https://nota-aberta.vercel.app/mcp"
+      "destination": "/mcp"
     }
   ]
 }
