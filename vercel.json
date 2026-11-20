@@ -4,26 +4,31 @@
   "buildCommand": "echo 'static site'",
   "installCommand": "echo 'no install'",
   "outputDirectory": "web",
+  "functions": {
+    "api/index.py": {
+      "runtime": "python3.12"
+    }
+  },
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "/api/:path*"
+      "destination": "/api/index.py"
     },
     {
       "source": "/conta/:path*",
-      "destination": "/conta/:path*"
+      "destination": "/api/index.py"
     },
     {
       "source": "/entrar/:path*",
-      "destination": "/entrar/:path*"
+      "destination": "/api/index.py"
     },
     {
       "source": "/sair",
-      "destination": "/sair"
+      "destination": "/api/index.py"
     },
     {
       "source": "/mcp",
-      "destination": "/mcp"
+      "destination": "/api/index.py"
     }
   ]
 }
