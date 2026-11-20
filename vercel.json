@@ -7,23 +7,23 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://reforma.genesisinnovation.io/api/:path*"
+      "destination": "https://nota-aberta.vercel.app/api/:path*"
     },
     {
       "source": "/conta/:path*",
-      "destination": "https://reforma.genesisinnovation.io/conta/:path*"
+      "destination": "https://nota-aberta.vercel.app/conta/:path*"
     },
     {
       "source": "/entrar/:path*",
-      "destination": "https://reforma.genesisinnovation.io/entrar/:path*"
+      "destination": "https://nota-aberta.vercel.app/entrar/:path*"
     },
     {
       "source": "/sair",
-      "destination": "https://reforma.genesisinnovation.io/sair"
+      "destination": "https://nota-aberta.vercel.app/sair"
     },
     {
       "source": "/mcp",
-      "destination": "https://reforma.genesisinnovation.io/mcp"
+      "destination": "https://nota-aberta.vercel.app/mcp"
     }
   ]
 }
