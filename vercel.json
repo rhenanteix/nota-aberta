@@ -1,0 +1,29 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "buildCommand": "echo 'static site'",
+  "installCommand": "echo 'no install'",
+  "outputDirectory": "web",
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://reforma.genesisinnovation.io/api/:path*"
+    },
+    {
+      "source": "/conta/:path*",
+      "destination": "https://reforma.genesisinnovation.io/conta/:path*"
+    },
+    {
+      "source": "/entrar/:path*",
+      "destination": "https://reforma.genesisinnovation.io/entrar/:path*"
+    },
+    {
+      "source": "/sair",
+      "destination": "https://reforma.genesisinnovation.io/sair"
+    },
+    {
+      "source": "/mcp",
+      "destination": "https://reforma.genesisinnovation.io/mcp"
+    }
+  ]
+}
