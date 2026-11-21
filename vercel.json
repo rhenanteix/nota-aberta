@@ -1,9 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": null,
-  "functions": {
-    "api/index.py": { "runtime": "python3.12" }
-  },
   "rewrites": [
     { "source": "/entrar/:path*", "destination": "/api/index.py" },
     { "source": "/sair", "destination": "/api/index.py" },
