@@ -13,9 +13,14 @@ ROOT = os.path.join(os.path.dirname(__file__), "..")
 if ROOT not in sys.path:
     sys.path.insert(0, ROOT)
 
-import conta_web
-import contas
-import mcp
+try:
+    import conta_web
+    import contas
+    import mcp
+except Exception:
+    conta_web = None
+    contas = None
+    mcp = None
 
 ROTAS_CONTA = ("/entrar/", "/sair", "/conta/")
 
@@ -26,6 +31,8 @@ def _cookie(nome: str, valor: str, idade: int) -> str:
 
 def _build_conta(env: dict | None = None):
     env = env if env is not None else os.environ
+    if conta_web is None or contas is None:
+        return None
     if not env.get("NOTA_DB") or len(env.get("NOTA_SEGREDO_SESSAO", "")) < 32:
         return None
     return conta_web.Conta(
@@ -143,7 +150,7 @@ def handler(request):
 
                 conta_cb = cb
 
-        status, resp = mcp.responder(corpo_json, chamar, conta_cb)
+        status, resp = mcp.responder(corpo_json, chamar, conta_cb) if mcp else (503, {"erro": "módulos de conta não disponíveis"})
         if resp is None:
             return _resposta(status, [("Content-Length", "0")], "")
         return _resposta(status, [("Content-Type", "application/json; charset=utf-8")], resp)
