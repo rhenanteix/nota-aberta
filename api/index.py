@@ -1,6 +1,6 @@
 """Vercel Python serverless function para nota-aberta.
-Adapta servidor.py + conta_web.py + mcp.py ao formato de função do Vercel.
-Arquivos estáticos em web/ são servidos automaticamente pelo outputDirectory.
+Adapta servidor.py + conta_web.py + mcp.py ao formato do Vercel.
+Arquivos estáticos em web/ são servidos pelo outputDirectory automaticamente.
 """
 from __future__ import annotations
 
@@ -16,8 +16,6 @@ import conta_web
 import contas
 import mcp
 
-COOKIE = "na_sessao"
-COOKIE_OAUTH = "na_oauth"
 ROTAS_CONTA = ("/entrar/", "/sair", "/conta/")
 
 
@@ -36,17 +34,12 @@ def _build_conta(env: dict | None = None):
     )
 
 
-def _normalizar_query(query) -> dict:
-    q: dict = {}
-    if not query:
-        return q
-    if isinstance(query, dict):
-        for k, v in query.items():
-            q[k] = [v] if isinstance(v, str) else list(v)
-    elif isinstance(query, (list, tuple)):
-        for k, v in query:
-            q.setdefault(k, []).append(v)
-    return q
+def _path_original(headers: dict) -> str:
+    """O Vercel reescreve o path; o original vem no header x-vercel-original-url."""
+    for k, v in headers.items():
+        if k.lower() == "x-vercel-original-url":
+            return v.split("?")[0]
+    return "/"
 
 
 def _resposta(status: int, headers: list, body) -> dict:
@@ -64,14 +57,23 @@ def _resposta(status: int, headers: list, body) -> dict:
 def handler(request):
     method = getattr(request, "method", "GET")
     path = getattr(request, "path", "/")
-    query = _normalizar_query(getattr(request, "query", None))
+    query = getattr(request, "query", None) or {}
+    if isinstance(query, dict):
+        q = {k: ([v] if isinstance(v, str) else list(v)) for k, v in query.items()}
+    elif isinstance(query, (list, tuple)):
+        q = {}
+        for k, v in query:
+            q.setdefault(k, []).append(v)
+    else:
+        q = {}
     headers_raw = getattr(request, "headers", {}) or {}
     cab = {str(k).lower(): str(v) for k, v in headers_raw.items()}
     body = getattr(request, "body", b"") or b""
     if isinstance(body, str):
         body = body.encode()
 
-    caminho = path.split("?")[0]
+    # Path original (antes do rewrite do Vercel)
+    caminho = _path_original(headers_raw)
 
     # --- health ---
     if caminho == "/health":
@@ -94,7 +96,12 @@ def handler(request):
                 [("Content-Type", "application/json; charset=utf-8")],
                 {"erro": {"codigo": "conta_desligada", "mensagem": "cadastro e emissão ainda não estão ligados neste servidor"}},
             )
-        r = CONTA.tratar(method, caminho, "", cab, body)
+        consulta = ""
+        if "?" in getattr(request, "url", "") or "?" in str(getattr(request, "path", "")):
+            raw_path = str(getattr(request, "path", "/"))
+            if "?" in raw_path:
+                consulta = raw_path.split("?", 1)[1]
+        r = CONTA.tratar(method, caminho, consulta, cab, body)
         hdrs = [("Cache-Control", "no-store")]
         for c in r.cookies:
             hdrs.append(("Set-Cookie", c))
@@ -111,7 +118,7 @@ def handler(request):
     # --- MCP ---
     if caminho == "/mcp" and method == "POST":
         try:
-            corpo = json.loads(body or b"null")
+            corpo_json = json.loads(body or b"null")
         except ValueError:
             return _resposta(
                 400,
@@ -122,20 +129,20 @@ def handler(request):
         def chamar(metodo, api, dados):
             return 502, {"erro": "motor de cálculo não disponível no Vercel"}
 
-        conta = None
+        conta_cb = None
         aut = cab.get("authorization", "")
         if aut.lower().startswith("bearer "):
             CONTA = _build_conta()
             if CONTA is not None:
 
-                def conta_cb(metodo, caminho_c, pedido):
+                def cb(metodo, caminho_c, pedido):
                     corpo_conta = json.dumps(pedido).encode() if pedido is not None else b""
                     r = CONTA.tratar(metodo, caminho_c, "", cab, corpo_conta)
                     return r.status, r.corpo
 
-                conta = conta_cb
+                conta_cb = cb
 
-        status, resp = mcp.responder(corpo, chamar, conta)
+        status, resp = mcp.responder(corpo_json, chamar, conta_cb)
         if resp is None:
             return _resposta(status, [("Content-Length", "0")], "")
         return _resposta(status, [("Content-Type", "application/json; charset=utf-8")], resp)
