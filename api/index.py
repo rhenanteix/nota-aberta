@@ -37,7 +37,7 @@ def _build_conta(env: dict | None = None):
         return None
     return conta_web.Conta(
         contas.Contas(env["NOTA_DB"], env["NOTA_SEGREDO_SESSAO"].encode()),
-        base=env.get("NOTA_BASE_URL", "https://reforma.genesisinnovation.io"),
+        base=env.get("NOTA_BASE_URL", "https://nota-aberta.onrender.com"),
         env=env,
     )
 

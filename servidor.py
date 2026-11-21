@@ -102,7 +102,7 @@ def montar_conta(env: dict | None = None):
     import conta_web
     import contas
     return conta_web.Conta(contas.Contas(env["NOTA_DB"], env["NOTA_SEGREDO_SESSAO"].encode()),
-                           base=env.get("NOTA_BASE_URL", "https://reforma.genesisinnovation.io"), env=env)
+                           base=env.get("NOTA_BASE_URL", "https://nota-aberta.onrender.com"), env=env)
 
 
 def chamar_motor(metodo: str, api: str, dados: bytes | None) -> tuple[int, object]:
