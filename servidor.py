@@ -91,6 +91,7 @@ class Teto:
 
 TETO = Teto(TETO_POR_MINUTO)
 CONTA = None  # conta_web.Conta quando o servidor tem banco e segredo (montar_conta); sem eles, só a calculadora
+MOTOR_PRONTO = False
 ROTAS_CONTA = ("/entrar/", "/sair", "/conta/")
 
 
@@ -164,8 +165,8 @@ class Porta(BaseHTTPRequestHandler):
     def do_GET(self):
         caminho = self.path.split("?")[0]
         if caminho == "/health":
-            ok = backend_vivo()
-            sys.stderr.write(f"HEALTH CHECK: {'OK' if ok else 'FAIL'} backend_vivo={ok}\n")
+            ok = MOTOR_PRONTO
+            sys.stderr.write(f"HEALTH CHECK: {'OK' if ok else 'FAIL'} motor_pronto={ok}\n")
             return self._enviar(200 if ok else 503, b"ok" if ok else b"motor fora", "text/plain; charset=utf-8",
                                 {"Cache-Control": "no-store"})
         if caminho.startswith("/api/"):
@@ -347,23 +348,25 @@ def vigiar(motor: subprocess.Popen, servidor: ThreadingHTTPServer) -> None:
 
 
 def main() -> int:
-    global CONTA
+    global CONTA, MOTOR_PRONTO
     sys.stderr.write(f"INICIANDO nota-aberta PORT={PORTA} BACKEND={BACKEND} RTC_JAR={os.environ.get('RTC_JAR', '')}\n")
     danfse = subir_danfse()
     CONTA = montar_conta()
     motor = subir_motor()
     if motor:
-        sys.stderr.write("aguardando motor subir...\n")
-        for i in range(60):  # até 60s
-            if backend_vivo():
-                sys.stderr.write(f"motor vivo após {i+1}s\n")
-                break
-            time.sleep(1)
-        else:
+        def esperar_motor():
+            global MOTOR_PRONTO
+            for i in range(60):
+                if backend_vivo():
+                    sys.stderr.write(f"motor vivo após {i+1}s\n")
+                    MOTOR_PRONTO = True
+                    return
+                time.sleep(1)
             sys.stderr.write("motor não subiu a tempo\n")
-            return 1
+        threading.Thread(target=esperar_motor, daemon=True).start()
     else:
         sys.stderr.write("AVISO: RTC_JAR vazio, motor não iniciado\n")
+        MOTOR_PRONTO = True
     servidor = ThreadingHTTPServer(("0.0.0.0", PORTA), Porta)
     servidor.daemon_threads = True
     signal.signal(signal.SIGTERM, lambda *_: threading.Thread(target=servidor.shutdown).start())
