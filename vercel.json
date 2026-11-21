@@ -6,6 +6,6 @@
     { "source": "/sair", "destination": "/api/index.py" },
     { "source": "/conta/:path*", "destination": "/api/index.py" },
     { "source": "/mcp", "destination": "/api/index.py" },
-    { "source": "/:path*", "destination": "/api/index.py" }
+    { "source": "/api/:path*", "destination": "/api/index.py" }
   ]
 }
