@@ -4,3 +4,7 @@
 !web
 !web/**
 !vercel.json
+!requirements.txt
+!*.py
+!planos.json
+!sistema.json

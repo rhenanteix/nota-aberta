@@ -5,6 +5,7 @@ Arquivos estáticos em web/ são servidos pelo outputDirectory automaticamente.
 from __future__ import annotations
 
 import json
+import mimetypes
 import os
 import sys
 
@@ -43,14 +44,14 @@ def _path_original(headers: dict) -> str:
 
 
 def _resposta(status: int, headers: list, body) -> dict:
-    if isinstance(body, str):
-        corpo = body.encode()
-    elif isinstance(body, bytes):
+    if isinstance(body, bytes):
+        corpo = body.decode("utf-8")
+    elif isinstance(body, str):
         corpo = body
     else:
-        corpo = json.dumps(body, ensure_ascii=False).encode()
+        corpo = json.dumps(body, ensure_ascii=False)
     h = dict(headers)
-    h["Content-Length"] = str(len(corpo))
+    h["Content-Length"] = str(len(corpo.encode("utf-8")))
     return {"statusCode": status, "headers": h, "body": corpo}
 
 
@@ -153,7 +154,15 @@ def handler(request):
     if os.path.isfile(arq):
         with open(arq, "rb") as f:
             dados = f.read()
-        tipo = "text/html; charset=utf-8" if nome.endswith(".html") else "application/octet-stream"
+        tipo, _ = mimetypes.guess_type(arq)
+        if tipo is None:
+            tipo = "application/octet-stream"
+        if nome.endswith(".html"):
+            tipo = "text/html; charset=utf-8"
+        elif nome.endswith(".css"):
+            tipo = "text/css; charset=utf-8"
+        elif nome.endswith(".js"):
+            tipo = "text/javascript; charset=utf-8"
         return _resposta(200, [("Content-Type", tipo)], dados)
 
     return _resposta(404, [("Content-Type", "application/json; charset=utf-8")], {"erro": "não encontrado"})
