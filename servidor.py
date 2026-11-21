@@ -350,6 +350,15 @@ def main() -> int:
     danfse = subir_danfse()
     CONTA = montar_conta()
     motor = subir_motor()
+    if motor:
+        sys.stderr.write("aguardando motor subir...\n")
+        for _ in range(60):  # até 60s
+            if backend_vivo():
+                break
+            time.sleep(1)
+        else:
+            sys.stderr.write("motor não subiu a tempo\n")
+            return 1
     servidor = ThreadingHTTPServer(("0.0.0.0", PORTA), Porta)
     servidor.daemon_threads = True
     signal.signal(signal.SIGTERM, lambda *_: threading.Thread(target=servidor.shutdown).start())

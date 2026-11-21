@@ -47,7 +47,7 @@ COPY requirements.txt /tmp/requirements.txt
 RUN python3 -m venv /venv && /venv/bin/pip install --no-cache-dir -r /tmp/requirements.txt && rm /tmp/requirements.txt
 ENV PYTHONDONTWRITEBYTECODE=1 PYTHONUNBUFFERED=1 PORT=8080 \
     RTC_JAR=/rtc/motor.jar RTC_DIR=/rtc RTC_DANFSE=/rtc/danfse-service TZ=America/Sao_Paulo \
-    RTC_JAVA_OPTS="-XX:+UseSerialGC -Xmx160m -Xss512k -XX:MaxMetaspaceSize=160m -XX:ReservedCodeCacheSize=48m -XX:TieredStopAtLevel=1 -Djava.io.tmpdir=/tmp -Dorg.sqlite.lib.path=/rtc/native -Dorg.sqlite.lib.name=libsqlitejdbc.so"
+    RTC_JAVA_OPTS="-XX:+UseSerialGC -Xmx256m -Xss512k -XX:MaxMetaspaceSize=256m -XX:ReservedCodeCacheSize=64m -XX:TieredStopAtLevel=1 -Djava.io.tmpdir=/tmp -Dorg.sqlite.lib.path=/rtc/native -Dorg.sqlite.lib.name=libsqlitejdbc.so"
 COPY --from=motor /src/motor.jar /rtc/motor.jar
 COPY --from=motor /src/calculadora/db/calculadora-pro.db /rtc/calculadora/db/calculadora-pro.db
 COPY --from=motor /src/native/libsqlitejdbc.so /rtc/native/libsqlitejdbc.so
