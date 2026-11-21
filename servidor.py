@@ -165,6 +165,7 @@ class Porta(BaseHTTPRequestHandler):
         caminho = self.path.split("?")[0]
         if caminho == "/health":
             ok = backend_vivo()
+            sys.stderr.write(f"HEALTH CHECK: {'OK' if ok else 'FAIL'} backend_vivo={ok}\n")
             return self._enviar(200 if ok else 503, b"ok" if ok else b"motor fora", "text/plain; charset=utf-8",
                                 {"Cache-Control": "no-store"})
         if caminho.startswith("/api/"):
@@ -347,18 +348,22 @@ def vigiar(motor: subprocess.Popen, servidor: ThreadingHTTPServer) -> None:
 
 def main() -> int:
     global CONTA
+    sys.stderr.write(f"INICIANDO nota-aberta PORT={PORTA} BACKEND={BACKEND} RTC_JAR={os.environ.get('RTC_JAR', '')}\n")
     danfse = subir_danfse()
     CONTA = montar_conta()
     motor = subir_motor()
     if motor:
         sys.stderr.write("aguardando motor subir...\n")
-        for _ in range(60):  # até 60s
+        for i in range(60):  # até 60s
             if backend_vivo():
+                sys.stderr.write(f"motor vivo após {i+1}s\n")
                 break
             time.sleep(1)
         else:
             sys.stderr.write("motor não subiu a tempo\n")
             return 1
+    else:
+        sys.stderr.write("AVISO: RTC_JAR vazio, motor não iniciado\n")
     servidor = ThreadingHTTPServer(("0.0.0.0", PORTA), Porta)
     servidor.daemon_threads = True
     signal.signal(signal.SIGTERM, lambda *_: threading.Thread(target=servidor.shutdown).start())
