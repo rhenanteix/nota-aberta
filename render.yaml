@@ -20,7 +20,7 @@ services:
       - key: GOOGLE_CLIENT_SECRET
         sync: false
       - key: NOTA_PRODUCAO
-        value: "0"
+        value: "1"
     disk:
       name: nota-aberta-dados
       mountPath: /data
