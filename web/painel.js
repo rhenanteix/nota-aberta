@@ -20,13 +20,50 @@ let EU = null;
 function plano(eu, planos) {
   const p = eu.plano;
   const usadas = eu.empresas.reduce((s, e) => s + e.notas_no_mes, 0);
-  const outros = planos.filter((x) => x.checkout && x.preco_mes > p.preco_mes);
+  const outros = planos.filter((x) => x.preco_mes > p.preco_mes);
   const reais = (v) => Number(v).toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   $("#plano").innerHTML = `<h2>Plano ${esc(p.nome)}</h2>
     <p>${usadas} de ${p.notas_mes} notas usadas neste mês · até ${p.empresas} empresa(s)</p>
-    <div class="acoes">${outros.map((o) => `<a class="botao" href="${esc(o.checkout)}">${esc(o.nome)}: R$ ${reais(o.preco_mes)}/mês${o.teste_dias ? `, ${o.teste_dias} dias grátis` : ""}</a>`).join("")}
+    <div class="acoes">${outros.map((o) => `
+      <div class="plano-opcoes">
+        <span>${esc(o.nome)}: R$ ${reais(o.preco_mes)}/mês</span>
+        <button type="button" class="botao" data-plano="${esc(o.id)}" data-metodo="PIX">Assinar com PIX</button>
+        <button type="button" class="secundario" data-plano="${esc(o.id)}" data-metodo="BOLETO">Assinar com Boleto</button>
+      </div>`).join("")}
     ${outros.length ? '<button type="button" class="secundario" id="ja-assinei">Já assinei: atualizar</button>' : ""}</div>
-    <p class="dica">${outros.length ? "Assine com o mesmo e-mail do login: o plano muda sozinho." : "Planos pagos aparecem aqui quando a cobrança estiver ligada."}</p>`;
+    <p class="dica">${outros.length ? "Pague com PIX (instantâneo) ou Boleto (até 3 dias úteis). O plano libera automaticamente após a confirmação do pagamento." : "Você já está no plano mais alto."}</p>`;
+  // Eventos dos botões de assinatura
+  document.querySelectorAll("[data-plano]").forEach((b) => {
+    b.onclick = async () => {
+      const planoId = b.dataset.plano;
+      const metodo = b.dataset.metodo;
+      const saida = $("#plano");
+      try {
+        const r = await api("POST", "/conta/planos/assinar", { plano_id: planoId, metodo: metodo });
+        const cob = r.cobranca;
+        let html = `<div class="cobranca"><h3>Pagamento via ${metodo}</h3>`;
+        if (metodo === "PIX") {
+          html += `<p>Escaneie o QR Code ou copie o código:</p>
+            <img src="${esc(cob.brCodeBase64)}" alt="QR Code PIX" style="max-width:200px" />
+            <p><code>${esc(cob.brCode)}</code></p>
+            <button type="button" class="secundario" onclick="navigator.clipboard.writeText('${esc(cob.brCode)}')">Copiar código</button>`;
+        } else {
+          html += `<p>Boleto gerado. Pague até ${esc(cob.expiresAt ? cob.expiresAt.slice(0,10) : "")}.</p>
+            <p><a href="${esc(cob.url)}" target="_blank" rel="noopener">Abrir boleto (PDF)</a></p>
+            <p>Código de barras: <code>${esc(cob.barCode)}</code></p>
+            ${cob.brCodeBase64 ? `<img src="${esc(cob.brCodeBase64)}" alt="PIX do boleto" style="max-width:150px" />` : ""}`;
+        }
+        html += `<p class="dica">Após o pagamento, clique em "Já assinei: atualizar" para ativar o plano.</p></div>`;
+        saida.innerHTML = html;
+      } catch (err) {
+        saida.querySelector("p.dica")?.remove();
+        const p = document.createElement("p");
+        p.className = "erro";
+        p.textContent = err.message;
+        saida.appendChild(p);
+      }
+    };
+  });
   const b = $("#ja-assinei");
   if (b) b.onclick = async () => { await api("POST", "/conta/plano/atualizar"); carregar(); };
 }

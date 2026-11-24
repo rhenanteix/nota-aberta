@@ -41,6 +41,10 @@ create table if not exists chaves (
 create table if not exists uso (
   empresa_id text not null references empresas(id) on delete cascade, mes text not null, notas integer not null default 0,
   primary key (empresa_id, mes));
+create table if not exists pagamentos (
+  id text primary key, usuario_id text not null references usuarios(id), plano_id text not null,
+  abacatepay_id text unique not null, metodo text not null, status text not null default 'PENDING',
+  valor_centavos integer not null, criado text not null, pago_em text);
 """
 SESSAO_SEGUNDOS = 14 * 24 * 3600
 
@@ -137,6 +141,38 @@ class Contas:
     def revogar_chave(self, usuario_id: str, prefixo: str) -> int:
         with self.trava:
             return self.bd.execute("delete from chaves where usuario_id = ? and prefixo = ?", (usuario_id, prefixo)).rowcount
+
+    # ------------------------------------------------------------ pagamentos (AbacatePay)
+    def criar_pagamento(self, usuario_id: str, plano_id: str, abacatepay_id: str, metodo: str, valor_centavos: int) -> dict:
+        pid = _id("pag")
+        with self.trava:
+            self.bd.execute("insert into pagamentos values (?, ?, ?, ?, ?, 'PENDING', ?, ?, null)",
+                            (pid, usuario_id, plano_id, abacatepay_id, metodo, valor_centavos, _agora()))
+        return self.pagamento(pid)
+
+    def pagamento(self, pagamento_id: str) -> dict | None:
+        r = self.bd.execute("select * from pagamentos where id = ?", (pagamento_id,)).fetchone()
+        return dict(r) if r else None
+
+    def pagamento_por_abacatepay(self, abacatepay_id: str) -> dict | None:
+        r = self.bd.execute("select * from pagamentos where abacatepay_id = ?", (abacatepay_id,)).fetchone()
+        return dict(r) if r else None
+
+    def confirmar_pagamento(self, abacatepay_id: str) -> dict | None:
+        with self.trava:
+            self.bd.execute("update pagamentos set status = 'PAID', pago_em = ? where abacatepay_id = ?",
+                            (_agora(), abacatepay_id))
+        return self.pagamento_por_abacatepay(abacatepay_id)
+
+    def planos_pagos(self, usuario_id: str) -> list[dict]:
+        return [dict(r) for r in self.bd.execute(
+            "select * from pagamentos where usuario_id = ? and status = 'PAID' order by pago_em desc", (usuario_id,))]
+
+    def plano_ativo(self, usuario_id: str) -> str | None:
+        r = self.bd.execute(
+            "select plano_id from pagamentos where usuario_id = ? and status = 'PAID' order by pago_em desc limit 1",
+            (usuario_id,)).fetchone()
+        return r["plano_id"] if r else None
 
     # ---------------------------------------------------------------- empresas
 

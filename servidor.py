@@ -181,7 +181,7 @@ class Porta(BaseHTTPRequestHandler):
             return self._repassar()
         if caminho == "/mcp":
             return self._mcp()
-        if caminho.startswith(ROTAS_CONTA):
+        if caminho.startswith(ROTAS_CONTA) or caminho.startswith("/webhooks/"):
             return self._conta()
         self._json(405, {"erro": "método não permitido"})
 

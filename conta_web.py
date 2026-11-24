@@ -16,6 +16,7 @@ import re
 import urllib.parse
 from http.cookies import CookieError, SimpleCookie
 
+import abacatepay
 import cofre
 import oauth
 import planos as planos_mod
@@ -131,6 +132,9 @@ class Conta:
             return Resultado(200, {"planos": [p | {"checkout": planos_mod.link_checkout(p)} for p in self.planos.lista],
                                    "sob_medida": planos_mod.sob_medida(), "producao": self.emissor.producao})
 
+        if caminho == "/webhooks/abacatepay" and m == "POST":
+            return self._webhook_abacatepay(corpo, cab, q)
+
         u = self._exigir(cab, m)
         partes = [p for p in caminho.split("/") if p][1:]  # sem o "conta"
         if partes == ["eu"] and m == "GET":
@@ -141,6 +145,8 @@ class Conta:
         if partes == ["plano", "atualizar"] and m == "POST":
             self.planos.esquecer(u["email"])
             return Resultado(200, {"plano": self.planos.do_email(u["email"])})
+        if partes == ["planos", "assinar"] and m == "POST":
+            return self._assinar_plano(u, corpo)
         if partes == ["empresas"] and m == "POST":
             d = self._json(corpo)
             plano = self.planos.do_email(u["email"])
@@ -160,6 +166,68 @@ class Conta:
         if len(partes) == 2 and partes[0] == "chaves" and m == "DELETE":
             return Resultado(200, {"revogadas": self.c.revogar_chave(u["id"], partes[1])})
         raise Erro(404, "rota_inexistente", "rota da conta não existe")
+
+    def _assinar_plano(self, u: dict, corpo: bytes) -> Resultado:
+        d = self._json(corpo)
+        plano_id = str(d.get("plano_id", ""))
+        metodo = str(d.get("metodo", "PIX")).upper()
+        plano = None
+        for p in self.planos.lista:
+            if p["id"] == plano_id:
+                plano = p
+                break
+        if not plano or plano["preco_mes"] <= 0:
+            return Resultado(400, {"erro": {"codigo": "plano_invalido", "mensagem": "plano não encontrado ou gratuito"}})
+        if metodo not in ("PIX", "BOLETO"):
+            return Resultado(400, {"erro": {"codigo": "metodo_invalido", "mensagem": "método deve ser PIX ou BOLETO"}})
+        valor_centavos = int(round(plano["preco_mes"] * 100))
+        customer = {}
+        if u.get("email"):
+            customer["email"] = u["email"]
+        if u.get("nome"):
+            customer["name"] = u["nome"]
+        external_id = f"plano-{plano_id}-{u['id']}"
+        metadata = {"plano_id": plano_id, "usuario_id": u["id"], "email": u["email"]}
+        try:
+            if metodo == "PIX":
+                cobranca = abacatepay.criar_cobranca_pix(valor_centavos, external_id, f"Plano {plano['nome']}", customer, metadata)
+            else:
+                cobranca = abacatepay.criar_cobranca_boleto(valor_centavos, external_id, f"Plano {plano['nome']}", customer, metadata)
+        except RuntimeError as e:
+            return Resultado(502, {"erro": {"codigo": "abacatepay_erro", "mensagem": str(e)}})
+        self.c.criar_pagamento(u["id"], plano_id, cobranca["id"], metodo, valor_centavos)
+        return Resultado(200, {"cobranca": cobranca, "plano": plano})
+
+    def _webhook_abacatepay(self, corpo: bytes, cab: dict, q: dict = None) -> Resultado:
+        secret = self.env.get("ABACATEPAY_WEBHOOK_SECRET", "")
+        secret_recebido = cab.get("x-webhook-secret", "")
+        # Tentar extrair do query string
+        if not secret_recebido and q:
+            vals = q.get("webhookSecret", [])
+            if vals:
+                secret_recebido = vals[0] if isinstance(vals, list) else vals
+        if secret and secret_recebido != secret:
+            return Resultado(401, {"erro": {"codigo": "secret_invalido", "mensagem": "webhook secret inválido"}})
+        try:
+            d = json.loads(corpo or b"{}")
+        except ValueError:
+            return Resultado(400, {"erro": "JSON inválido"})
+        evento = d.get("event", "")
+        if evento == "transparent.completed":
+            data = d.get("data", {})
+            cobranca_id = data.get("id", "")
+            if cobranca_id:
+                pag = self.c.confirmar_pagamento(cobranca_id)
+                if pag:
+                    self.planos.esquecer(pag["usuario_id"] and self.c.usuario(pag["usuario_id"])["email"]) if False else None
+                    # Limpar cache do plano do usuário
+                    try:
+                        u = self.c.usuario(pag["usuario_id"])
+                        if u:
+                            self.planos.esquecer(u["email"])
+                    except Exception:
+                        pass
+        return Resultado(200, {"ok": True})
 
     def _empresa(self, m: str, u: dict, eid: str, resto: list[str], corpo: bytes) -> Resultado:
         if not re.fullmatch(r"emp_[A-Za-z0-9_-]{1,40}", eid):

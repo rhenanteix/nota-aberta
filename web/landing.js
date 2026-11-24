@@ -14,7 +14,7 @@ fetch("/conta/planos").then((r) => r.ok ? r.json() : Promise.reject(r.status)).t
       <h3>${esc(p.nome)}</h3>
       <p class="preco">${p.preco_mes ? `R$ ${reais(p.preco_mes)}<span>/mês</span>` : "R$ 0"}</p>
       <ul>${p.destaques.map((d) => `<li>${esc(d)}</li>`).join("")}</ul>
-      <a class="botao${i === meio ? "" : " secundario"}" href="/entrar/google">${!p.preco_mes ? "Começar grátis" : p.teste_dias ? `Testar ${esc(p.teste_dias)} dias` : "Assinar"}</a>
+      <a class="botao${i === meio ? "" : " secundario"}" href="/painel.html">${!p.preco_mes ? "Começar grátis" : "Assinar no painel"}</a>
     </article>`);
   if (sm && sm.texto) {
     const zap = sm.whatsapp ? `https://wa.me/${encodeURIComponent(sm.whatsapp)}?text=${encodeURIComponent("Quero um plano sob medida da Emite Ai")}` : "";

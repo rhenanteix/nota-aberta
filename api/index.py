@@ -23,6 +23,7 @@ except Exception:
     mcp = None
 
 ROTAS_CONTA = ("/entrar/", "/sair", "/conta/")
+ROTAS_WEBHOOK = ("/webhooks/",)
 
 
 def _cookie(nome: str, valor: str, idade: int) -> str:
@@ -96,7 +97,7 @@ def handler(request):
         )
 
     # --- rotas de conta (entrar, sair, /conta/*) ---
-    if caminho.startswith(ROTAS_CONTA):
+    if caminho.startswith(ROTAS_CONTA) or caminho.startswith(ROTAS_WEBHOOK):
         CONTA = _build_conta()
         if CONTA is None:
             return _resposta(
