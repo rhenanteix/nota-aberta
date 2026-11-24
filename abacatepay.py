@@ -25,7 +25,8 @@ def _request(metodo: str, caminho: str, corpo: dict | None = None) -> tuple[int,
     req = urllib.request.Request(url, data=data, method=metodo,
                                  headers={"Authorization": f"Bearer {_chave()}",
                                           "Content-Type": "application/json",
-                                          "Accept": "application/json"})
+                                          "Accept": "application/json",
+                                          "User-Agent": "nota-aberta/1.0 (Python)"})
     try:
         with urllib.request.urlopen(req, timeout=30) as r:
             return r.status, json.loads(r.read() or b"{}")
