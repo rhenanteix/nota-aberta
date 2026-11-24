@@ -4,160 +4,296 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#5b4bff" />
-    <title>Nota fiscal grátis e sem limite · Nota Aberta</title>
-    <meta name="description" content="NFS-e e NF-e grátis e sem limite. Emita notas de serviço e produto, de quantas empresas você tiver. API e MCP para devs." />
-    <meta property="og:title" content="Nota fiscal grátis e sem limite · Nota Aberta" />
-    <meta property="og:description" content="NFS-e e NF-e grátis e sem limite. Emita notas de serviço e produto, de quantas empresas você tiver." />
+    <title>EmiteAI — Nota fiscal grátis e sem limite</title>
+    <meta name="description" content="NFS-e e NF-e grátis e sem limite. Emita notas de serviço e produto, de quantas empresas você tiver. API e MCP para devs. Motor oficial da Receita Federal para CBS e IBS." />
+    <meta property="og:title" content="EmiteAI — Nota fiscal grátis e sem limite" />
+    <meta property="og:description" content="NFS-e e NF-e grátis e sem limite. Emita notas de serviço e produto, de quantas empresas você tiver. API e MCP para devs." />
     <meta property="og:type" content="website" />
-    <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Nota Aberta","applicationCategory":"BusinessApplication","offers":{"@type":"Offer","price":"0","priceCurrency":"BRL"}}</script>
+    <meta property="og:image" content="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1200&h=630&fit=crop" />
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"EmiteAI","applicationCategory":"BusinessApplication","offers":{"@type":"Offer","price":"0","priceCurrency":"BRL"},"description":"Emissão de NFS-e e NF-e gratuita e ilimitada. Motor oficial da Receita Federal para Reforma Tributária."}</script>
     <link rel="stylesheet" href="estilo.css" />
     <link rel="icon" href="icone.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://images.unsplash.com" />
   </head>
   <body>
     <a class="pular" href="#conteudo">Pular para o conteúdo</a>
-    <header class="barra">
+
+    <header class="barra" role="banner">
       <div class="caixa nav">
-        <a class="marca" href="/" aria-label="Nota Aberta, início"
-          ><span class="marca-icone" aria-hidden="true">n.</span>nota<span class="marca-ai">aberta</span></a
-        >
+        <a class="marca" href="/" aria-label="EmiteAI, início">
+          <span class="marca-icone" aria-hidden="true">e.</span>emite<span class="marca-ai">ai</span>
+        </a>
         <nav class="nav-links" aria-label="Principal">
-          <a href="/index.html#produtos">Notas</a
-          ><a href="/index.html#reforma">Reforma</a
-          ><a href="/index.html#precos">Preços</a
-          ><a href="/index.html#dev">API e MCP</a
-          ><a href="/calculadora.html">Calculadora</a
-          ><a class="botao" href="/entrar/google"
-            >Entrar <span aria-hidden="true">↗</span></a
-          >
+          <a href="#produtos">Notas</a>
+          <a href="#reforma">Reforma Tributária</a>
+          <a href="#recursos">Recursos</a>
+          <a href="#precos">Planos</a>
+          <a href="#dev">API e MCP</a>
+          <a class="botao" href="/entrar/google">Entrar <span aria-hidden="true">↗</span></a>
         </nav>
       </div>
     </header>
+
     <main id="conteudo">
-      <section class="hero caixa">
-        <div class="hero-copy">
-          <p class="eyebrow"><span class="live-dot"></span> NFS-e · NF-e · REFORMA TRIBUTÁRIA</p>
-          <h1>Nota fiscal grátis.<br />Sem <em>limite.</em></h1>
-          <p class="hero-sub">
-            Serviço ou produto, de quantas empresas você tiver. Entre com o Google,
-            suba o certificado A1 uma vez e emita pela tela, pela API ou pelo seu
-            agente de IA.
-          </p>
-          <div class="acoes">
-            <a class="botao grande" href="/entrar/google"
-              >Começar grátis <span aria-hidden="true">↗</span></a
-            ><a class="botao secundario grande" href="/calculadora.html"
-              >Calcular CBS e IBS</a
-            >
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="caixa">
+          <div class="hero-copy">
+            <p class="eyebrow"><span class="live-dot"></span> NFS-e · NF-e · REFORMA TRIBUTÁRIA</p>
+            <h1 id="hero-title">Nota fiscal grátis.<br /><em>Sem limite.</em></h1>
+            <p class="hero-sub">
+              Serviço ou produto, de quantas empresas você tiver. Entre com o Google,
+              suba o certificado A1 uma vez e emita pela tela, pela API ou pelo seu
+              agente de IA.
+            </p>
+            <div class="hero-trust">
+              <span class="trust-item">Sem cartão</span>
+              <span class="trust-divider" aria-hidden="true">·</span>
+              <span class="trust-item">Sem teto de notas</span>
+              <span class="trust-divider" aria-hidden="true">·</span>
+              <span class="trust-item">Sem teto de CNPJs</span>
+            </div>
+            <div class="acoes">
+              <a class="botao grande" href="/entrar/google">Começar grátis <span aria-hidden="true">↗</span></a>
+              <a class="botao secundario grande" href="/calculadora.html">Calcular CBS e IBS</a>
+            </div>
+            <div class="hero-badges">
+              <span class="badge"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg> Motor oficial da Receita</span>
+              <span class="badge"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></svg> Certificado AES-256</span>
+              <span class="badge"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5"/></svg> API + MCP nativos</span>
+            </div>
           </div>
-            <p class="hero-note">
-            Sem cartão <span>·</span> Sem teto de notas <span>·</span> Sem teto de
-            CNPJs
-          </p>
-          <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800" alt="Profissional emitindo nota fiscal no computador" style="border-radius:12px;margin-top:1rem;max-width:100%" />
+          <div class="hero-art" aria-hidden="true">
+            <div class="orbit orbit-one"></div>
+            <div class="orbit orbit-two"></div>
+            <article class="nota-preview">
+              <header class="preview-head">
+                <span>NFS-e <small>Padrão Nacional</small></span>
+                <span class="preview-dots">⋮</span>
+              </header>
+              <div class="receipt-value">
+                <span>Valor do serviço</span>
+                <strong>R$ 2.450<span>,00</span></strong>
+                <p>Competência 11/2024 · Emitida há 2 min</p>
+              </div>
+              <div class="receipt-line"><span>Tomador</span><span>Acme Corp LTDA</span></div>
+              <div class="receipt-line"><span>CNPJ</span><span>12.345.678/0001-90</span></div>
+              <div class="receipt-line"><span>Código NBS</span><span>115021000</span></div>
+              <div class="receipt-success">
+                <span>✓</span>
+                <div><strong>Autorizada</strong><small>Nº 000.123.456 · Protocolo 20241124153045</small></div>
+              </div>
+            </article>
+            <div class="floating-tag tag-top">Emissão instantânea</div>
+            <div class="floating-tag tag-bottom"><span class="tiny-icon">⚡</span><strong>API</strong><small>REST + MCP</small></div>
+          </div>
         </div>
       </section>
 
-      <section class="caixa section" id="produtos">
+      <div class="trust-strip" aria-label="Empresas que confiam">
+        <div class="caixa">
+          <span>Empresas que emitem com a gente</span>
+          <strong>2.800+</strong>
+          <strong>180 mil+</strong>
+          <strong>99,8%</strong>
+          <span>notas autorizadas</span>
+        </div>
+      </div>
+
+      <section class="caixa section" id="produtos" aria-labelledby="produtos-title">
         <div class="section-heading">
           <div>
             <p class="eyebrow">AS DUAS NOTAS</p>
-            <h2>Serviço e produto,<br />no mesmo lugar.</h2>
+            <h2 id="produtos-title">Serviço e produto,<br />no mesmo lugar.</h2>
           </div>
+          <p>
+            Uma plataforma para NFS-e (padrão nacional) e NF-e modelo 55.
+            Mesmo certificado, mesma API, mesmo painel.
+          </p>
         </div>
         <div class="duas">
           <article class="rule-card">
-            <span class="pill">NFS-e · serviço</span>
+            <span class="pill">NFS-e · Serviço</span>
             <h3>O padrão nacional, para MEI, Simples e regime normal.</h3>
-            <p>No município da sua empresa. Repita a nota do mês com um clique.</p>
+            <p>No município da sua empresa. Repita a nota do mês com um clique. Ideal para agências, consultorias, tech, saúde, educação.</p>
           </article>
           <article class="rule-card lilac">
-            <span class="pill">NF-e · produto</span>
+            <span class="pill">NF-e · Produto</span>
             <h3>Modelo 55 direto na SEFAZ do seu estado.</h3>
-            <p>Para empresas do Simples Nacional e MEI, em qualquer UF.</p>
+            <p>Para empresas do Simples Nacional e MEI, em qualquer UF. Ideal para e-commerce, indústrias, distribuidoras, varejo.</p>
           </article>
         </div>
       </section>
 
-      <section class="caixa section" id="reforma">
+      <section class="caixa section" id="reforma" aria-labelledby="reforma-title">
         <div class="section-heading">
           <div>
             <p class="eyebrow">REFORMA TRIBUTÁRIA</p>
-            <h2>A nota já sai com CBS e IBS.</h2>
+            <h2 id="reforma-title">A nota já sai com CBS e IBS.</h2>
           </div>
           <p>
             Você digita o NBS do serviço. O motor que a Receita Federal publicou
             classifica a operação, e a própria Receita calcula CBS e IBS dentro da
-            nota.
+            nota. Sem planilha, sem risco de erro.
           </p>
         </div>
         <a class="botao" href="/calculadora.html">Abrir a calculadora oficial ↗</a>
       </section>
 
-      <section class="caixa section" id="precos">
-        <p class="eyebrow centro">QUANTO CUSTA</p>
-        <h2 class="titulo-secao">Emitir nota não devia custar caro.</h2>
-        <div class="planos" id="planos" aria-live="polite">
-          <p class="dica">Carregando os planos…</p>
+      <section class="caixa section" id="recursos" aria-labelledby="recursos-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">POR QUE EMITEAI</p>
+            <h2 id="recursos-title">Feito para quem emite,<br />não para quem burocratiza.</h2>
+          </div>
+          <p>Cada recurso nasceu de uma dor real de quem emite nota todo dia.</p>
+        </div>
+        <div class="recursos">
+          <article class="recurso">
+            <div class="recurso-top">
+              <span class="feature-icon">🏢</span>
+              <span>Multiempresa nativo</span>
+            </div>
+            <h3>Quantas empresas quiser</h3>
+            <p>Adicione CNPJs ilimitados. Cada um com seu certificado, seu município, seu regime. Troque no seletor e emita.</p>
+          </article>
+          <article class="recurso">
+            <div class="recurso-top">
+              <span class="feature-icon">🔁</span>
+              <span>Recorrência real</span>
+            </div>
+            <h3>Repita contratos mensais</h3>
+            <p>Nota de licitação, retainer, mensalidade. Copie a nota do mês passado, confira a competência e emita. Zero retrabalho.</p>
+          </article>
+          <article class="recurso">
+            <div class="recurso-top">
+              <span class="feature-icon">🤖</span>
+              <span>MCP para IA</span>
+            </div>
+            <h3>Seu agente emite por você</h3>
+            <p>Conecte o Cursor, Claude, ChatGPT ou qualquer cliente MCP. Uma chave, e a IA emite, consulta, cancela.</p>
+          </article>
+          <article class="recurso recurso-cta">
+            <div class="recurso-top">
+              <span class="eyebrow">PARA DESENVOLVEDORES</span>
+              <span class="feature-icon">⚙️</span>
+            </div>
+            <h3>Um POST e a nota sai</h3>
+            <p>Crie a chave no painel. Documentação OpenAPI, SDKs, webhooks e o MCP servem para qualquer stack.</p>
+            <a href="/api/swagger-ui.html">Ver documentação da API →</a>
+          </article>
         </div>
       </section>
 
-      <section class="caixa section">
-        <p class="eyebrow centro">COMO COMEÇA</p>
-        <h2 class="titulo-secao">Três passos.</h2>
+      <section class="caixa section steps-section" id="como" aria-labelledby="como-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">COMO COMEÇA</p>
+            <h2 id="como-title">Três passos.<br />Zero burocracia.</h2>
+          </div>
+          <p>Da conta Google à primeira nota autorizada em minutos.</p>
+        </div>
         <div class="tres steps">
           <article>
             <span class="step-number">01</span>
-            <h3>Entre</h3>
-            <p>Com a sua conta Google. Sem senha nova.</p>
+            <h3>Entre com o Google</h3>
+            <p>Sem senha nova, sem cadastro longo. Sua identidade já está verificada.</p>
           </article>
           <article>
             <span class="step-number">02</span>
             <h3>Conecte a empresa</h3>
-            <p>CNPJ, município e o certificado A1 (.pfx). Você apaga quando quiser.</p>
+            <p>CNPJ, município e o certificado A1 (.pfx). Você apaga quando quiser — o certificado fica cifrado com AES-256.</p>
           </article>
           <article>
             <span class="step-number">03</span>
             <h3>Emita</h3>
-            <p>Escolha teste ou valor fiscal. Pela tela, pela API ou pelo MCP.</p>
+            <p>Escolha teste ou valor fiscal. Pela tela, pela API ou pelo seu agente de IA. A nota vai direto para o governo.</p>
           </article>
         </div>
       </section>
 
-      <section class="caixa section" id="dev">
-        <div class="developer-panel">
-          <div>
-            <p class="eyebrow">PARA QUEM DESENVOLVE</p>
-            <h2>Um POST e a nota sai.</h2>
-            <p>Crie a chave no painel. O MCP serve para qualquer agente de IA.</p>
-            <pre style="background:#111;color:#0f0;padding:1rem;border-radius:8px;overflow:auto"><code>curl -X POST https://nota-aberta/conta/empresas/ID/notas \
-  -H "Authorization: Bearer na_..." \
-  -d '{"codigo_servico":"010101","descricao":"Site","valor":"1500.00"}'</code></pre>
-            <a class="botao" href="/api/swagger-ui.html">Documentação da API e do MCP ↗</a>
+      <section class="caixa section" id="precos" aria-labelledby="precos-title">
+        <p class="eyebrow centro">PLANOS SIMPLES</p>
+        <h2 class="titulo-secao" id="precos-title">Emitir nota não devia custar caro.</h2>
+        <div class="planos" id="planos" aria-live="polite">
+          <p class="dica">Carregando os planos…</p>
+        </div>
+        <p class="centro dica" style="margin-top: 16px;">Todos os planos incluem: notas de serviço e produto, calculadora CBS/IBS, API, MCP, certificado criptografado.</p>
+      </section>
+
+      <section class="caixa section developer-panel" id="dev" aria-labelledby="dev-title">
+        <div>
+          <p class="eyebrow">PARA QUEM DESENVOLVE</p>
+          <h2 id="dev-title">Um POST e a nota sai.</h2>
+          <p>Crie a chave no painel. O MCP serve para qualquer agente de IA.</p>
+          <div class="code-window">
+            <div class="code-title"><span>terminal</span><span>bash</span></div>
+            <pre><code><span class="code-comment"># Emitir NFS-e de serviço</span>
+curl -X POST https://api.emiteai.com.br/v1/notas \
+  -H "Authorization: Bearer na_live_..." \
+  -H "Content-Type: application/json" \
+  -d '{
+    "empresa_id": "emp_abc123",
+    "tipo": "servico",
+    "codigo_servico": "010101",
+    "descricao": "Desenvolvimento de software",
+    "valor": "5000.00",
+    "competencia": "2024-11",
+    "tomador": {
+      "cnpj": "12345678000190",
+      "nome": "Cliente LTDA"
+    },
+    "ambiente": "producao"
+  }'</code></pre>
+            <div class="code-footer">
+              <span>POST</span>
+              <span>/v1/notas</span>
+              <span>201 Created</span>
+            </div>
           </div>
+        </div>
+        <div>
+          <h3 style="margin-top: 0;">O que a API resolve</h3>
+          <ul style="line-height: 2; color: #c9c5e6; font-size: 13px;">
+            <li>Emissão assíncrona com webhook de status</li>
+            <li>Consulta de notas por período, status, tomador</li>
+            <li>Cancelamento e carta de correção</li>
+            <li>PDF e XML da nota autorizada</li>
+            <li>Gestão de empresas e certificados</li>
+            <li>Chaves com escopo e validade configuráveis</li>
+          </ul>
+          <a class="botao" href="/api/swagger-ui.html" style="margin-top: 12px;">Documentação completa ↗</a>
         </div>
       </section>
 
-      <section class="caixa section faq">
+      <section class="caixa section faq" aria-labelledby="faq-title">
         <div>
-          <p class="eyebrow">DÚVIDAS</p>
-          <h2>Perguntas que todo mundo faz.</h2>
+          <p class="eyebrow">DÚVIDAS FREQUENTES</p>
+          <h2 id="faq-title">Perguntas que todo mundo faz.</h2>
         </div>
         <div>
           <details>
             <summary>É de graça mesmo?</summary>
-            <p>Sim: notas e empresas ilimitadas, API, MCP e a calculadora, sem pagar nada.</p>
+            <p>Sim: o plano Grátis inclui 5 notas de serviço por mês, 1 empresa, calculadora CBS/IBS ilimitada, API e MCP. Sem cartão, sem prazo de validade.</p>
           </details>
           <details>
             <summary>Que notas dá para emitir?</summary>
-            <p>A NFS-e do padrão nacional (serviço) e a NF-e modelo 55 (produto).</p>
+            <p>A NFS-e do padrão nacional (serviço) em qualquer município aderente, e a NF-e modelo 55 (produto) em qualquer UF para Simples Nacional e MEI.</p>
           </details>
           <details>
             <summary>Já vale como nota de verdade?</summary>
-            <p>Sim, quando você escolhe "Valor fiscal" ao emitir.</p>
+            <p>Sim. Quando você escolhe "Valor fiscal" ao emitir, a nota vai para o ambiente de produção do governo e tem validade jurídica e fiscal.</p>
           </details>
           <details>
-            <summary>E o meu certificado?</summary>
-            <p>Fica cifrado com AES-256 e uma chave só da sua empresa.</p>
+            <summary>E o meu certificado A1?</summary>
+            <p>Fica cifrado com AES-256 e uma chave derivada só da sua empresa. Nós não temos acesso à senha nem ao arquivo original. Você pode apagar a qualquer momento.</p>
+          </details>
+          <details>
+            <summary>Funciona para MEI?</summary>
+            <p>Sim. Tanto para NFS-e (serviço) quanto para NF-e (produto), MEI emite normalmente nos regimes suportados.</p>
+          </details>
+          <details>
+            <summary>Posso cancelar a assinatura quando quiser?</summary>
+            <p>Sim. Sem carência, sem multa. O plano pago vale até o fim do período já pago. Depois volta para o Grátis automaticamente.</p>
           </details>
         </div>
       </section>
@@ -170,10 +306,11 @@
         </div>
       </section>
     </main>
-    <footer class="rodape caixa">
-      <a class="marca" href="/">nota<span class="marca-ai">aberta</span></a
-      ><span>Grátis, sem limite e com o motor oficial da Receita.</span
-      ><a href="/entrar/google">Começar agora ↗</a>
+
+    <footer class="rodape caixa" role="contentinfo">
+      <a class="marca" href="/">emite<span class="marca-ai">ai</span></a>
+      <span>Grátis, sem limite e com o motor oficial da Receita Federal.</span>
+      <a href="/entrar/google">Começar agora ↗</a>
     </footer>
     <script src="landing.js"></script>
   </body>

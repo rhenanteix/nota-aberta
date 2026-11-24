@@ -4,248 +4,499 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#5b4bff" />
-    <title>Painel Emite Ai</title>
+    <title>Painel EmiteAI</title>
     <meta name="robots" content="noindex" />
     <link rel="stylesheet" href="estilo.css" />
     <link rel="icon" href="icone.svg" type="image/svg+xml" />
   </head>
   <body class="app-page">
     <a class="pular" href="#conteudo">Pular para o conteúdo</a>
-    <header class="barra">
+
+    <header class="barra" role="banner">
       <div class="caixa nav">
-        <a class="marca" href="/"
-          ><span class="marca-icone" aria-hidden="true">e.</span>emite<span
-            class="marca-ai"
-            >ai</span
-          ></a
-        >
-        <span class="nav-links"
-          ><span id="quem"></span><a href="/calculadora.html">Calculadora</a
-          ><a href="/sair">Sair</a></span
-        >
+        <a class="marca" href="/" aria-label="EmiteAI, início">
+          <span class="marca-icone" aria-hidden="true">e.</span>emite<span class="marca-ai">ai</span>
+        </a>
+        <nav class="nav-links" aria-label="Ações do usuário">
+          <span id="usuario-avatar" class="usuario-avatar" hidden></span>
+          <span id="usuario-email" class="usuario-email"></span>
+          <a href="/calculadora.html" class="nav-link">Calculadora</a>
+          <a href="/sair" class="botao secundario">Sair</a>
+        </nav>
       </div>
     </header>
-    <main class="caixa" id="conteudo">
-      <div class="app-heading">
-        <p class="eyebrow">SEU ESPAÇO DE TRABALHO</p>
-        <h1>Vamos fazer acontecer.</h1>
-        <p>Suas empresas, suas notas e o próximo passo. Tudo por aqui.</p>
-      </div>
-      <p id="ambiente" class="faixa" hidden></p>
-      <section id="fora" class="cartao" hidden>
-        <h2>Entre para emitir</h2>
-        <p>Use a sua conta Google. Nenhuma senha nova.</p>
-        <a class="botao" href="/entrar/google">Entrar com Google</a>
-      </section>
 
-      <div id="dentro" hidden>
-        <section class="cartao" id="plano"></section>
+    <div class="app-layout">
+      <aside class="sidebar" id="sidebar" role="navigation" aria-label="Menu principal">
+        <nav class="sidebar-nav">
+          <a href="#visao" class="sidebar-item ativo" data-section="visao">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+            <span>Visão geral</span>
+          </a>
+          <a href="#emitir" class="sidebar-item" data-section="emitir">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            <span>Emitir notas</span>
+          </a>
+          <a href="#empresas" class="sidebar-item" data-section="empresas">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 21H2"/><path d="M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16"/><path d="M6 11h12"/><path d="M12 3v4"/></svg>
+            <span>Empresas</span>
+            <span class="sidebar-badge" id="badge-empresas" hidden>0</span>
+          </a>
+          <a href="#notas" class="sidebar-item" data-section="notas">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            <span>Notas emitidas</span>
+            <span class="sidebar-badge" id="badge-notas" hidden>0</span>
+          </a>
+          <a href="#financeiro" class="sidebar-item" data-section="financeiro">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/><polyline points="15 17 19 21 23 13"/></svg>
+            <span>Financeiro</span>
+            <span class="sidebar-badge" id="badge-plano" hidden></span>
+          </a>
+          <a href="#api" class="sidebar-item" data-section="api">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            <span>API e MCP</span>
+          </a>
+          <a href="#config" class="sidebar-item" data-section="config">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            <span>Configurações</span>
+          </a>
+        </nav>
+        <div class="sidebar-footer">
+          <a href="/" class="sidebar-link" target="_blank">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            <span>Ver site público</span>
+          </a>
+          <span class="sidebar-version">v1.0.0</span>
+        </div>
+      </aside>
 
-        <section class="cartao" id="financeiro">
-          <h2>Planos e financeiro</h2>
-          <p class="dica">Escolha o plano ideal. Contrate e gerencie sua assinatura.</p>
-          <div class="planos" id="planos-painel" aria-live="polite">
-            <p class="dica">Carregando os planos…</p>
-          </div>
-        </section>
+      <button class="sidebar-toggle" id="sidebar-toggle" aria-label="Alternar menu" aria-expanded="true" aria-controls="sidebar">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
 
-        <section class="cartao">
-          <h2>Emitir nota de serviço</h2>
-          <form id="f-emitir" class="grade3">
-            <label
-              >Empresa
-              <select name="empresa" required></select
-            ></label>
-            <label
-              >Código de tributação nacional
-              <input
-                name="codigo_servico"
-                inputmode="numeric"
-                pattern="\d{6}"
-                placeholder="010101"
-                required
-            /></label>
-            <label
-              >Valor (R$)
-              <input
-                name="valor"
-                inputmode="decimal"
-                placeholder="1500,00"
-                required
-            /></label>
-            <label class="largo3"
-              >Descrição do serviço
-              <input name="descricao" maxlength="2000" required
-            /></label>
-            <label
-              >CPF/CNPJ do tomador <input name="doc" inputmode="numeric"
-            /></label>
-            <label>Nome do tomador <input name="nome" /></label>
-            <label>E-mail do tomador <input name="email" type="email" /></label>
-            <details class="largo3" id="end-tomador">
-              <summary>Endereço do tomador (opcional)</summary>
-              <div class="grade3">
-                <label
-                  >CEP
-                  <input
-                    name="cep"
-                    inputmode="numeric"
-                    placeholder="88000-000"
-                    autocomplete="off"
-                /></label>
-                <label class="largo"
-                  >Logradouro <input name="logradouro" maxlength="255"
-                /></label>
-                <label
-                  >Número <input name="numero" maxlength="60" placeholder="S/N"
-                /></label>
-                <label
-                  >Complemento <input name="complemento" maxlength="156"
-                /></label>
-                <label>Bairro <input name="bairro" maxlength="60" /></label>
-                <label
-                  >Município
-                  <input
-                    name="cidade"
-                    readonly
-                    tabindex="-1"
-                    placeholder="sai do CEP" /><input
-                    name="municipio_ibge"
-                    type="hidden"
-                /></label>
-                <p class="dica largo3" id="r-cep"></p>
+      <main class="main-content" id="conteudo" role="main">
+        <div class="caixa">
+          <section id="sec-visao" class="app-section ativa" aria-labelledby="visao-title">
+            <header class="app-heading">
+              <p class="eyebrow">SEU ESPAÇO DE TRABALHO</p>
+              <h1 id="visao-title">Vamos fazer acontecer.</h1>
+              <p>Suas empresas, suas notas e o próximo passo. Tudo por aqui.</p>
+            </header>
+
+            <p id="ambiente" class="faixa" hidden></p>
+
+            <section id="fora" class="cartao" hidden>
+              <h2>Entre para emitir</h2>
+              <p>Use a sua conta Google. Nenhuma senha nova.</p>
+              <a class="botao" href="/entrar/google">Entrar com Google</a>
+            </section>
+
+            <div id="dentro" hidden>
+              <div class="totais" id="kpis" role="region" aria-label="Indicadores principais">
+                <div>
+                  <span>Empresas ativas</span>
+                  <strong id="kpi-empresas">0</strong>
+                </div>
+                <div>
+                  <span>Notas este mês</span>
+                  <strong id="kpi-notas">0</strong>
+                </div>
+                <div>
+                  <span>Valor emitido</span>
+                  <strong id="kpi-valor">R$ 0,00</strong>
+                </div>
+                <div class="destaque">
+                  <span>Plano atual</span>
+                  <strong id="kpi-plano">Grátis</strong>
+                </div>
               </div>
-            </details>
-            <label
-              >Competência (quando o serviço foi prestado)
-              <input name="competencia" type="date" required
-            /></label>
-            <label
-              >NBS (opcional, 9 dígitos)
-              <input
-                name="nbs"
-                inputmode="numeric"
-                pattern="\d{9}"
-                placeholder="115021000"
-            /></label>
-            <p class="dica largo3" id="dica-repetir" hidden></p>
-            <fieldset class="largo3 ambiente-escolha">
-              <legend>Tipo de nota</legend>
-              <label class="opcao"
-                ><input
-                  type="radio"
-                  name="ambiente"
-                  value="teste"
-                  checked
-                /><span
-                  ><strong>Teste</strong> · sem valor fiscal, vai para o
-                  ambiente de teste do governo</span
-                ></label
-              >
-              <label class="opcao"
-                ><input type="radio" name="ambiente" value="producao" /><span
-                  ><strong>Valor fiscal</strong> · nota de verdade, gera
-                  imposto</span
-                ></label
-              >
-            </fieldset>
-            <div class="largo3 acoes">
-              <button type="submit" id="b-emitir">Emitir nota de teste</button
-              ><span class="dica" id="r-emitir"></span>
+
+              <section class="cartao" id="proximos-passos">
+                <h2>Próximos passos</h2>
+                <div class="passos-lista" id="proximos-passos-lista">
+                  <p class="dica">Carregando…</p>
+                </div>
+              </section>
+
+              <section class="cartao" id="ultimas-notas-resumo">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+                  <h2>Últimas notas</h2>
+                  <a href="#notas" class="botao secundario mini">Ver todas</a>
+                </div>
+                <div id="ultimas-notas-lista">
+                  <p class="dica">Nenhuma nota ainda.</p>
+                </div>
+              </section>
             </div>
-          </form>
-        </section>
+          </section>
 
-        <section class="cartao">
-          <h2>Empresas</h2>
-          <div id="empresas"></div>
-          <details>
-            <summary>Adicionar empresa</summary>
-            <form id="f-empresa" class="grade3">
-              <label
-                >CNPJ <input name="cnpj" inputmode="numeric" required
-              /></label>
-              <label class="largo"
-                >Razão social <input name="razao" required
-              /></label>
-              <label
-                >UF
-                <select name="uf" required>
-                  <option value="">Carregando…</option>
-                </select></label
-              >
-              <label
-                >Município
-                <select name="municipio" required disabled>
-                  <option value="">Escolha a UF</option>
-                </select></label
-              >
-              <label
-                >Regime
-                <select name="regime">
-                  <option value="simples">Simples Nacional (ME/EPP)</option>
-                  <option value="mei">MEI</option>
-                  <option value="normal">Regime normal</option>
-                </select></label
-              >
-              <div class="largo3 acoes">
-                <button type="submit">Adicionar</button
-                ><span class="dica" id="r-empresa"></span>
+          <section id="sec-emitir" class="app-section" aria-labelledby="emitir-title" hidden>
+            <header class="app-heading">
+              <p class="eyebrow">EMISSÃO</p>
+              <h1 id="emitir-title">Emitir nota de serviço</h1>
+              <p>Preencha os dados e envie direto para a prefeitura.</p>
+            </header>
+
+            <section class="cartao">
+              <form id="f-emitir" class="grade3" novalidate>
+                <label>
+                  Empresa
+                  <select name="empresa" required></select>
+                </label>
+                <label>
+                  Código de tributação nacional
+                  <input name="codigo_servico" inputmode="numeric" pattern="\d{6}" placeholder="010101" required autocomplete="off" />
+                </label>
+                <label>
+                  Valor (R$)
+                  <input name="valor" inputmode="decimal" placeholder="1500,00" required autocomplete="off" />
+                </label>
+                <label class="largo3">
+                  Descrição do serviço
+                  <input name="descricao" maxlength="2000" required autocomplete="off" />
+                </label>
+                <label>
+                  CPF/CNPJ do tomador
+                  <input name="doc" inputmode="numeric" autocomplete="off" />
+                </label>
+                <label>
+                  Nome do tomador
+                  <input name="nome" autocomplete="off" />
+                </label>
+                <label>
+                  E-mail do tomador
+                  <input name="email" type="email" autocomplete="off" />
+                </label>
+                <details class="largo3" id="end-tomador">
+                  <summary>Endereço do tomador (opcional)</summary>
+                  <div class="grade3">
+                    <label>
+                      CEP
+                      <input name="cep" inputmode="numeric" placeholder="88000-000" autocomplete="off" />
+                    </label>
+                    <label class="largo">
+                      Logradouro
+                      <input name="logradouro" maxlength="255" autocomplete="off" />
+                    </label>
+                    <label>
+                      Número
+                      <input name="numero" maxlength="60" placeholder="S/N" autocomplete="off" />
+                    </label>
+                    <label>
+                      Complemento
+                      <input name="complemento" maxlength="156" autocomplete="off" />
+                    </label>
+                    <label>
+                      Bairro
+                      <input name="bairro" maxlength="60" autocomplete="off" />
+                    </label>
+                    <label>
+                      Município
+                      <input name="cidade" readonly tabindex="-1" placeholder="sai do CEP" autocomplete="off" />
+                      <input name="municipio_ibge" type="hidden" />
+                    </label>
+                    <p class="dica largo3" id="r-cep"></p>
+                  </div>
+                </details>
+                <label>
+                  Competência (quando o serviço foi prestado)
+                  <input name="competencia" type="date" required />
+                </label>
+                <label>
+                  NBS (opcional, 9 dígitos)
+                  <input name="nbs" inputmode="numeric" pattern="\d{9}" placeholder="115021000" autocomplete="off" />
+                </label>
+                <p class="dica largo3" id="dica-repetir" hidden></p>
+                <fieldset class="largo3 ambiente-escolha">
+                  <legend>Tipo de nota</legend>
+                  <label class="opcao">
+                    <input type="radio" name="ambiente" value="teste" checked />
+                    <span><strong>Teste</strong> · sem valor fiscal, vai para o ambiente de teste do governo</span>
+                  </label>
+                  <label class="opcao">
+                    <input type="radio" name="ambiente" value="producao" />
+                    <span><strong>Valor fiscal</strong> · nota de verdade, gera imposto</span>
+                  </label>
+                </fieldset>
+                <div class="largo3 acoes">
+                  <button type="submit" id="b-emitir">Emitir nota de teste</button>
+                  <span class="dica" id="r-emitir"></span>
+                </div>
+              </form>
+            </section>
+
+            <section class="cartao" id="emitir-produto" hidden>
+              <h2>Emitir nota de produto (NF-e)</h2>
+              <p class="dica">Em breve: emissão de NF-e modelo 55 direto na SEFAZ.</p>
+            </section>
+          </section>
+
+          <section id="sec-empresas" class="app-section" aria-labelledby="empresas-title" hidden>
+            <header class="app-heading">
+              <p class="eyebrow">EMPRESAS</p>
+              <h1 id="empresas-title">Suas empresas</h1>
+              <p>Gerencie CNPJs, certificados e regimes tributários.</p>
+            </header>
+
+            <section class="cartao">
+              <div id="empresas-lista">
+                <p class="dica">Carregando…</p>
               </div>
-            </form>
-          </details>
-        </section>
+              <details>
+                <summary>Adicionar empresa</summary>
+                <form id="f-empresa" class="grade3">
+                  <label>
+                    CNPJ
+                    <input name="cnpj" inputmode="numeric" required autocomplete="off" />
+                  </label>
+                  <label class="largo">
+                    Razão social
+                    <input name="razao" required autocomplete="off" />
+                  </label>
+                  <label>
+                    UF
+                    <select name="uf" required>
+                      <option value="">Carregando…</option>
+                    </select>
+                  </label>
+                  <label>
+                    Município
+                    <select name="municipio" required disabled>
+                      <option value="">Escolha a UF</option>
+                    </select>
+                  </label>
+                  <label>
+                    Regime
+                    <select name="regime">
+                      <option value="simples">Simples Nacional (ME/EPP)</option>
+                      <option value="mei">MEI</option>
+                      <option value="normal">Regime normal</option>
+                    </select>
+                  </label>
+                  <div class="largo3 acoes">
+                    <button type="submit">Adicionar</button>
+                    <span class="dica" id="r-empresa"></span>
+                  </div>
+                </form>
+              </details>
+            </section>
+          </section>
 
-        <section class="cartao">
-          <h2>Últimas notas</h2>
-          <div id="notas">
-            <p class="dica">Escolha a empresa no formulário de emissão.</p>
-          </div>
-        </section>
+          <section id="sec-notas" class="app-section" aria-labelledby="notas-title" hidden>
+            <header class="app-heading">
+              <p class="eyebrow">NOTAS EMITIDAS</p>
+              <h1 id="notas-title">Histórico de notas</h1>
+              <p>Acompanhe status, veja PDFs e repita emissões recorrentes.</p>
+            </header>
 
-        <section class="cartao">
-          <h2>Chaves de API e MCP</h2>
-          <p class="dica">
-            Para o seu sistema ou agente emitir por você. A chave aparece uma
-            vez só.
-          </p>
-          <div id="chaves"></div>
-          <form id="f-chave" class="acoes">
-            <input
-              name="nome"
-              placeholder="nome da chave (ex.: meu ERP)"
-            /><button type="submit" class="secundario">Criar chave</button>
-          </form>
-          <p id="chave-nova" class="faixa" hidden></p>
-        </section>
-      </div>
-    </main>
+            <section class="cartao">
+              <div class="filtros" style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px;align-items:end">
+                <label style="flex:1;min-width:180px">
+                  Empresa
+                  <select id="filtro-empresa"></select>
+                </label>
+                <label style="flex:1;min-width:140px">
+                  Status
+                  <select id="filtro-status">
+                    <option value="">Todos</option>
+                    <option value="emitida">Emitida</option>
+                    <option value="recusada">Recusada</option>
+                    <option value="pendente">Pendente</option>
+                    <option value="cancelada">Cancelada</option>
+                  </select>
+                </label>
+                <label style="flex:1;min-width:140px">
+                  Período
+                  <select id="filtro-periodo">
+                    <option value="">Este mês</option>
+                    <option value="30">Últimos 30 dias</option>
+                    <option value="90">Últimos 90 dias</option>
+                    <option value="ano">Este ano</option>
+                  </select>
+                </label>
+              </div>
+              <div id="notas-lista" style="overflow-x:auto">
+                <p class="dica">Selecione uma empresa no filtro acima.</p>
+              </div>
+            </section>
+          </section>
+
+          <section id="sec-financeiro" class="app-section" aria-labelledby="financeiro-title" hidden>
+            <header class="app-heading">
+              <p class="eyebrow">FINANCEIRO</p>
+              <h1 id="financeiro-title">Plano e assinaturas</h1>
+              <p>Gerencie seu plano, veja o consumo e faça upgrades quando precisar.</p>
+            </header>
+
+            <section class="cartao" id="plano-atual">
+              <h2>Plano atual</h2>
+              <div id="plano-detalhes">
+                <p class="dica">Carregando…</p>
+              </div>
+            </section>
+
+            <section class="cartao" id="planos-disponiveis">
+              <h2>Planos disponíveis</h2>
+              <p class="dica">Escolha o plano ideal. A alteração é imediata com PIX, ou em até 3 dias úteis com boleto.</p>
+              <div class="planos" id="planos-painel" aria-live="polite">
+                <p class="dica">Carregando os planos…</p>
+              </div>
+            </section>
+
+            <section class="cartao" id="historico-pagamentos">
+              <h2>Histórico de pagamentos</h2>
+              <div id="pagamentos-lista">
+                <p class="dica">Carregando…</p>
+              </div>
+            </section>
+
+            <section class="cartao" id="faturas-abertas">
+              <h2>Faturas em aberto</h2>
+              <div id="faturas-lista">
+                <p class="dica">Nenhuma fatura pendente.</p>
+              </div>
+            </section>
+          </section>
+
+          <section id="sec-api" class="app-section" aria-labelledby="api-title" hidden>
+            <header class="app-heading">
+              <p class="eyebrow">DESENVOLVEDOR</p>
+              <h1 id="api-title">API e MCP</h1>
+              <p>Chaves de acesso para seu sistema ou agente de IA emitir por você.</p>
+            </header>
+
+            <section class="cartao">
+              <h2>Chaves de API</h2>
+              <p class="dica">Para o seu sistema ou agente emitir por você. A chave aparece uma vez só.</p>
+              <div id="chaves-lista">
+                <p class="dica">Carregando…</p>
+              </div>
+              <form id="f-chave" class="acoes">
+                <input name="nome" placeholder="nome da chave (ex.: meu ERP)" required />
+                <button type="submit" class="secundario">Criar chave</button>
+              </form>
+              <p id="chave-nova" class="faixa" hidden></p>
+            </section>
+
+            <section class="cartao">
+              <h2>MCP (Model Context Protocol)</h2>
+              <p class="dica">Conecte Cursor, Claude, VS Code ou qualquer cliente MCP.</p>
+              <div style="background:#fbfaff;border:1px solid var(--borda);border-radius:12px;padding:20px">
+                <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:12px">
+                  <code style="flex:1;min-width:200px;background:#efecff;padding:8px 12px;border-radius:8px;font-size:13px" id="mcp-url">mcp://emiteai.com.br/{sua-chave}</code>
+                  <button type="button" class="secundario mini" id="copiar-mcp">Copiar</button>
+                </div>
+                <p style="font-size:12px;color:var(--suave);margin:0">Substitua <code>{sua-chave}</code> por uma chave da lista acima. A URL completa será gerada automaticamente.</p>
+              </div>
+              <a class="botao secundario" href="/api/swagger-ui.html" style="margin-top:16px;display:inline-block">Ver documentação OpenAPI ↗</a>
+            </section>
+
+            <section class="cartao">
+              <h2>Webhooks</h2>
+              <p class="dica">Receba notificações em tempo real: nota emitida, recusada, cancelada.</p>
+              <div id="webhooks-lista">
+                <p class="dica">Nenhum webhook configurado.</p>
+              </div>
+              <button type="button" class="botao secundario" id="add-webhook">Adicionar webhook</button>
+            </section>
+          </section>
+
+          <section id="sec-config" class="app-section" aria-labelledby="config-title" hidden>
+            <header class="app-heading">
+              <p class="eyebrow">CONFIGURAÇÕES</p>
+              <h1 id="config-title">Configurações da conta</h1>
+              <p>Gerencie seu perfil, segurança e preferências.</p>
+            </header>
+
+            <section class="cartao">
+              <h2>Perfil</h2>
+              <form id="f-perfil" class="grade3">
+                <label class="largo3">
+                  Nome
+                  <input name="nome" id="perfil-nome" autocomplete="name" />
+                </label>
+                <label class="largo3">
+                  E-mail
+                  <input name="email" id="perfil-email" type="email" readonly style="background:#f5f4fa" />
+                </label>
+                <div class="largo3 acoes">
+                  <button type="submit">Salvar</button>
+                  <span class="dica" id="r-perfil"></span>
+                </div>
+              </form>
+            </section>
+
+            <section class="cartao">
+              <h2>Preferências de emissão</h2>
+              <form id="f-prefs" class="grade3">
+                <fieldset class="largo3 ambiente-escolha">
+                  <legend>Ambiente padrão</legend>
+                  <label class="opcao">
+                    <input type="radio" name="ambiente_padrao" value="teste" />
+                    <span><strong>Teste</strong> · sem valor fiscal</span>
+                  </label>
+                  <label class="opcao">
+                    <input type="radio" name="ambiente_padrao" value="producao" />
+                    <span><strong>Valor fiscal</strong> · nota de verdade</span>
+                  </label>
+                </fieldset>
+                <label class="largo3">
+                  Competência padrão
+                  <select name="competencia_padrao">
+                    <option value="atual">Mês atual</option>
+                    <option value="anterior">Mês anterior</option>
+                  </select>
+                </label>
+                <div class="largo3 acoes">
+                  <button type="submit">Salvar preferências</button>
+                  <span class="dica" id="r-prefs"></span>
+                </div>
+              </form>
+            </section>
+
+            <section class="cartao" style="border-color:#ffd9ca;background:#fffaf5">
+              <h2 style="color:#c2410c">Zona de perigo</h2>
+              <p class="dica">Ações irreversíveis. Use com cuidado.</p>
+              <div class="acoes" style="gap:8px">
+                <button type="button" class="botao secundario" style="border-color:#ff7a59;color:#c2410c" id="btn-exportar">Exportar meus dados</button>
+                <button type="button" class="botao" style="background:#ff7a59;border-color:#ff7a59" id="btn-excluir">Excluir conta</button>
+              </div>
+            </section>
+          </section>
+        </div>
+      </main>
+    </div>
+
     <template id="tpl-empresa">
-      <article class="empresa">
-        <h3 class="e-nome"></h3>
-        <p class="dica e-info"></p>
-        <form class="f-cert acoes">
-          <label
-            >Certificado A1 (.pfx)
-            <input type="file" name="pfx" accept=".pfx,.p12" required
-          /></label>
-          <label
-            >Senha do certificado
-            <input type="password" name="senha" autocomplete="off" required
-          /></label>
+      <article class="empresa-cartao">
+        <div class="empresa-head">
+          <div>
+            <h3 class="e-nome"></h3>
+            <p class="dica e-info"></p>
+          </div>
+          <span class="estado e-status"></span>
+        </div>
+        <form class="f-cert acoes" style="margin-top:16px;padding-top:16px;border-top:1px solid var(--borda)">
+          <label>
+            Certificado A1 (.pfx)
+            <input type="file" name="pfx" accept=".pfx,.p12" required />
+          </label>
+          <label>
+            Senha do certificado
+            <input type="password" name="senha" autocomplete="off" required />
+          </label>
           <button type="submit" class="secundario">Guardar certificado</button>
-          <button type="button" class="secundario apagar-cert" hidden>
-            Apagar certificado
-          </button>
+          <button type="button" class="secundario apagar-cert" hidden>Apagar certificado</button>
           <span class="dica r-cert"></span>
         </form>
       </article>
     </template>
-    <script src="painel.js"></script>
+
     <footer class="rodape caixa">
-      <a class="marca" href="/">emite<span class="marca-ai">ai</span></a
-      ><span>Menos burocracia. Mais espaço para crescer.</span
-      ><a href="/entrar/google">Começar agora ↗</a>
+      <a class="marca" href="/">emite<span class="marca-ai">ai</span></a>
+      <span>Menos burocracia. Mais espaço para crescer.</span>
+      <a href="/entrar/google">Começar agora ↗</a>
     </footer>
+    <script src="painel.js"></script>
   </body>
 </html>
