@@ -6,6 +6,10 @@
     <meta name="theme-color" content="#5b4bff" />
     <title>Nota fiscal grátis e sem limite · Nota Aberta</title>
     <meta name="description" content="NFS-e e NF-e grátis e sem limite. Emita notas de serviço e produto, de quantas empresas você tiver. API e MCP para devs." />
+    <meta property="og:title" content="Nota fiscal grátis e sem limite · Nota Aberta" />
+    <meta property="og:description" content="NFS-e e NF-e grátis e sem limite. Emita notas de serviço e produto, de quantas empresas você tiver." />
+    <meta property="og:type" content="website" />
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Nota Aberta","applicationCategory":"BusinessApplication","offers":{"@type":"Offer","price":"0","priceCurrency":"BRL"}}</script>
     <link rel="stylesheet" href="estilo.css" />
     <link rel="icon" href="icone.svg" type="image/svg+xml" />
   </head>
@@ -45,10 +49,11 @@
               >Calcular CBS e IBS</a
             >
           </div>
-          <p class="hero-note">
+            <p class="hero-note">
             Sem cartão <span>·</span> Sem teto de notas <span>·</span> Sem teto de
             CNPJs
           </p>
+          <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800" alt="Profissional emitindo nota fiscal no computador" style="border-radius:12px;margin-top:1rem;max-width:100%" />
         </div>
       </section>
 
@@ -124,6 +129,9 @@
             <p class="eyebrow">PARA QUEM DESENVOLVE</p>
             <h2>Um POST e a nota sai.</h2>
             <p>Crie a chave no painel. O MCP serve para qualquer agente de IA.</p>
+            <pre style="background:#111;color:#0f0;padding:1rem;border-radius:8px;overflow:auto"><code>curl -X POST https://nota-aberta/conta/empresas/ID/notas \
+  -H "Authorization: Bearer na_..." \
+  -d '{"codigo_servico":"010101","descricao":"Site","valor":"1500.00"}'</code></pre>
             <a class="botao" href="/api/swagger-ui.html">Documentação da API e do MCP ↗</a>
           </div>
         </div>
