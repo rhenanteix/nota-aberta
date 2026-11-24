@@ -186,6 +186,10 @@ class Conta:
             customer["email"] = u["email"]
         if u.get("nome"):
             customer["name"] = u["nome"]
+        # AbacatePay exige cellphone se customer for informado
+        # Se não tiver, não enviar customer (PIX aceita sem customer)
+        if not customer.get("cellphone"):
+            customer = None
         external_id = f"plano-{plano_id}-{u['id']}"
         metadata = {"plano_id": plano_id, "usuario_id": u["id"], "email": u["email"]}
         try:
