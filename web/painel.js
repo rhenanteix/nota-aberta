@@ -168,6 +168,7 @@ function renderKPIs(eu) {
 
 function renderProximosPassos(eu) {
   const passos = [];
+  const usadas = eu.empresas.reduce((s, e) => s + e.notas_no_mes, 0);
   if (!eu.empresas.length) {
     passos.push({ titulo: "Adicione sua primeira empresa", acao: "Ir para Empresas", section: "empresas" });
   } else if (!eu.empresas.some(e => e.certificado)) {
