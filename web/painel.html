@@ -119,7 +119,7 @@
               </section>
 
               <section class="cartao" id="ultimas-notas-resumo">
-                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+                <div class="section-head">
                   <h2>Últimas notas</h2>
                   <a href="#notas" class="botao secundario mini">Ver todas</a>
                 </div>
@@ -290,12 +290,12 @@
             </header>
 
             <section class="cartao">
-              <div class="filtros" style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px;align-items:end">
-                <label style="flex:1;min-width:180px">
+              <div class="filtros">
+                <label class="filtro-item">
                   Empresa
                   <select id="filtro-empresa"></select>
                 </label>
-                <label style="flex:1;min-width:140px">
+                <label class="filtro-item">
                   Status
                   <select id="filtro-status">
                     <option value="">Todos</option>
@@ -305,7 +305,7 @@
                     <option value="cancelada">Cancelada</option>
                   </select>
                 </label>
-                <label style="flex:1;min-width:140px">
+                <label class="filtro-item">
                   Período
                   <select id="filtro-periodo">
                     <option value="">Este mês</option>
@@ -315,7 +315,7 @@
                   </select>
                 </label>
               </div>
-              <div id="notas-lista" style="overflow-x:auto">
+              <div id="notas-lista" class="scroll-x">
                 <p class="dica">Selecione uma empresa no filtro acima.</p>
               </div>
             </section>
@@ -381,14 +381,14 @@
             <section class="cartao">
               <h2>MCP (Model Context Protocol)</h2>
               <p class="dica">Conecte Cursor, Claude, VS Code ou qualquer cliente MCP.</p>
-              <div style="background:#fbfaff;border:1px solid var(--borda);border-radius:12px;padding:20px">
-                <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:12px">
-                  <code style="flex:1;min-width:200px;background:#efecff;padding:8px 12px;border-radius:8px;font-size:13px" id="mcp-url">mcp://emiteai.com.br/{sua-chave}</code>
+              <div class="mcp-box">
+                <div class="mcp-url-row">
+                  <code id="mcp-url">mcp://emiteai.com.br/{sua-chave}</code>
                   <button type="button" class="secundario mini" id="copiar-mcp">Copiar</button>
                 </div>
-                <p style="font-size:12px;color:var(--suave);margin:0">Substitua <code>{sua-chave}</code> por uma chave da lista acima. A URL completa será gerada automaticamente.</p>
+                <p class="mcp-hint">Substitua <code>{sua-chave}</code> por uma chave da lista acima. A URL completa será gerada automaticamente.</p>
               </div>
-              <a class="botao secundario" href="/api/swagger-ui.html" style="margin-top:16px;display:inline-block">Ver documentação OpenAPI ↗</a>
+              <a class="botao secundario" href="/api/swagger-ui.html">Ver documentação OpenAPI ↗</a>
             </section>
 
             <section class="cartao">
@@ -417,7 +417,7 @@
                 </label>
                 <label class="largo3">
                   E-mail
-                  <input name="email" id="perfil-email" type="email" readonly style="background:#f5f4fa" />
+                  <input name="email" id="perfil-email" type="email" readonly class="input-readonly" />
                 </label>
                 <div class="largo3 acoes">
                   <button type="submit">Salvar</button>
@@ -454,12 +454,12 @@
               </form>
             </section>
 
-            <section class="cartao" style="border-color:#ffd9ca;background:#fffaf5">
-              <h2 style="color:#c2410c">Zona de perigo</h2>
+            <section class="cartao danger-zone">
+              <h2>Zona de perigo</h2>
               <p class="dica">Ações irreversíveis. Use com cuidado.</p>
-              <div class="acoes" style="gap:8px">
-                <button type="button" class="botao secundario" style="border-color:#ff7a59;color:#c2410c" id="btn-exportar">Exportar meus dados</button>
-                <button type="button" class="botao" style="background:#ff7a59;border-color:#ff7a59" id="btn-excluir">Excluir conta</button>
+              <div class="acoes acoes-danger">
+                <button type="button" class="botao secundario danger-btn" id="btn-exportar">Exportar meus dados</button>
+                <button type="button" class="botao danger-btn-primary" id="btn-excluir">Excluir conta</button>
               </div>
             </section>
           </section>
@@ -476,7 +476,7 @@
           </div>
           <span class="estado e-status"></span>
         </div>
-        <form class="f-cert acoes" style="margin-top:16px;padding-top:16px;border-top:1px solid var(--borda)">
+<form class="f-cert acoes cert-form">
           <label>
             Certificado A1 (.pfx)
             <input type="file" name="pfx" accept=".pfx,.p12" required />

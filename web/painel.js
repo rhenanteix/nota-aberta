@@ -128,14 +128,14 @@ function renderPlano(eu, planos) {
         let html = `<div class="cobranca"><h3>Pagamento via ${metodo}</h3>`;
         if (metodo === "PIX") {
           html += `<p>Escaneie o QR Code ou copie o código:</p>
-            <img src="${esc(cob.brCodeBase64)}" alt="QR Code PIX" style="max-width:200px" />
+            <img src="${esc(cob.brCodeBase64)}" alt="QR Code PIX" class="qrcode-img" />
             <p><code>${esc(cob.brCode)}</code></p>
             <button type="button" class="secundario" onclick="navigator.clipboard.writeText('${esc(cob.brCode)}')">Copiar código</button>`;
         } else {
           html += `<p>Boleto gerado. Pague até ${esc(cob.expiresAt ? cob.expiresAt.slice(0,10) : "")}.</p>
             <p><a href="${esc(cob.url)}" target="_blank" rel="noopener">Abrir boleto (PDF)</a></p>
             <p>Código de barras: <code>${esc(cob.barCode)}</code></p>
-            ${cob.brCodeBase64 ? `<img src="${esc(cob.brCodeBase64)}" alt="PIX do boleto" style="max-width:150px" />` : ""}`;
+            ${cob.brCodeBase64 ? `<img src="${esc(cob.brCodeBase64)}" alt="PIX do boleto" class="qrcode-img" />` : ""}`;
         }
         html += `<p class="dica">Após o pagamento, clique em "Já assinei: atualizar" para ativar o plano.</p></div>`;
         saida.innerHTML = html;
@@ -183,7 +183,7 @@ function renderProximosPassos(eu) {
   }
 
   const html = passos.map(p => `
-    <div class="passo-item" style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--borda)">
+    <div class="passo-item">
       <div>
         <strong>${esc(p.titulo)}</strong>
       </div>
@@ -365,22 +365,22 @@ async function carregarFinanceiro() {
   const p = EU.plano;
   const usadas = EU.empresas.reduce((s, e) => s + e.notas_no_mes, 0);
   $("#plano-detalhes").innerHTML = `
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:20px">
-      <div style="background:#fbfaff;padding:16px;border-radius:12px;border:1px solid var(--borda)">
-        <span style="font-size:11px;color:var(--suave);text-transform:uppercase;letter-spacing:.5px">Plano atual</span>
-        <h3 style="margin:8px 0 0;font-size:22px">${esc(p.nome)}</h3>
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <label>Plano atual</label>
+        <h3>${esc(p.nome)}</h3>
       </div>
-      <div style="background:#fbfaff;padding:16px;border-radius:12px;border:1px solid var(--borda)">
-        <span style="font-size:11px;color:var(--suave);text-transform:uppercase;letter-spacing:.5px">Notas usadas</span>
-        <h3 style="margin:8px 0 0;font-size:22px">${usadas} / ${p.notas_mes}</h3>
+      <div class="kpi-card">
+        <label>Notas usadas</label>
+        <h3>${usadas} / ${p.notas_mes}</h3>
       </div>
-      <div style="background:#fbfaff;padding:16px;border-radius:12px;border:1px solid var(--borda)">
-        <span style="font-size:11px;color:var(--suave);text-transform:uppercase;letter-spacing:.5px">Empresas</span>
-        <h3 style="margin:8px 0 0;font-size:22px">${EU.empresas.length} / ${p.empresas}</h3>
+      <div class="kpi-card">
+        <label>Empresas</label>
+        <h3>${EU.empresas.length} / ${p.empresas}</h3>
       </div>
-      <div style="background:#fbfaff;padding:16px;border-radius:12px;border:1px solid var(--borda)">
-        <span style="font-size:11px;color:var(--suave);text-transform:uppercase;letter-spacing:.5px">Valor/mês</span>
-        <h3 style="margin:8px 0 0;font-size:22px">${p.preco_mes ? `R$ ${reais(p.preco_mes)}` : "Grátis"}</h3>
+      <div class="kpi-card">
+        <label>Valor/mês</label>
+        <h3>${p.preco_mes ? `R$ ${reais(p.preco_mes)}` : "Grátis"}</h3>
       </div>
     </div>
     <div class="acoes">
@@ -391,15 +391,15 @@ async function carregarFinanceiro() {
 
   const outros = planos.filter((x) => x.preco_mes > p.preco_mes || (x.preco_mes === 0 && p.id !== "gratis"));
   $("#planos-painel").innerHTML = outros.map((o, i) => `
-    <article class="plano${o.id === p.id ? " destaque-plano" : ""}" style="${o.id === p.id ? "border:2px solid var(--marca);background:#f4f2ff" : ""}">
+    <article class="plano-card${o.id === p.id ? " destaque" : ""}">
       <h3>${esc(o.nome)}</h3>
       <p class="preco">${o.preco_mes ? `R$ ${reais(o.preco_mes)}<span>/mês</span>` : "R$ 0"}</p>
       <ul>${o.destaques.map((d) => `<li>${esc(d)}</li>`).join("")}</ul>
-      <div class="acoes" style="margin-top:auto">
+      <div class="acoes">
         ${o.id !== p.id ? `
-          <button type="button" class="botao" data-plano="${esc(o.id)}" data-metodo="PIX" style="flex:1">Assinar com PIX</button>
-          <button type="button" class="secundario" data-plano="${esc(o.id)}" data-metodo="BOLETO" style="flex:1">Assinar com Boleto</button>
-        ` : `<span class="botao" style="background:#e7e5f2;color:var(--suave);cursor:default">Plano atual</span>`}
+          <button type="button" class="botao" data-plano="${esc(o.id)}" data-metodo="PIX">Assinar com PIX</button>
+          <button type="button" class="secundario" data-plano="${esc(o.id)}" data-metodo="BOLETO">Assinar com Boleto</button>
+        ` : `<span class="plano-current">Plano atual</span>`}
       </div>
     </article>
   `).join("");
@@ -412,17 +412,17 @@ async function carregarFinanceiro() {
       try {
         const r = await api("POST", "/conta/planos/assinar", { plano_id: planoId, metodo: metodo });
         const cob = r.cobranca;
-        let html = `<div class="cobranca" style="grid-column:1/-1"><h3>Pagamento via ${metodo}</h3>`;
+        let html = `<div class="cobranca"><h3>Pagamento via ${metodo}</h3>`;
         if (metodo === "PIX") {
           html += `<p>Escaneie o QR Code ou copie o código:</p>
-            <img src="${esc(cob.brCodeBase64)}" alt="QR Code PIX" style="max-width:200px" />
+            <img src="${esc(cob.brCodeBase64)}" alt="QR Code PIX" class="qrcode-img" />
             <p><code>${esc(cob.brCode)}</code></p>
             <button type="button" class="secundario" onclick="navigator.clipboard.writeText('${esc(cob.brCode)}')">Copiar código</button>`;
         } else {
           html += `<p>Boleto gerado. Pague até ${esc(cob.expiresAt ? cob.expiresAt.slice(0,10) : "")}.</p>
             <p><a href="${esc(cob.url)}" target="_blank" rel="noopener">Abrir boleto (PDF)</a></p>
             <p>Código de barras: <code>${esc(cob.barCode)}</code></p>
-            ${cob.brCodeBase64 ? `<img src="${esc(cob.brCodeBase64)}" alt="PIX do boleto" style="max-width:150px" />` : ""}`;
+            ${cob.brCodeBase64 ? `<img src="${esc(cob.brCodeBase64)}" alt="PIX do boleto" class="qrcode-img" />` : ""}`;
         }
         html += `<p class="dica">Após o pagamento, clique em "Já assinei: atualizar" no plano atual para ativar.</p></div>`;
         saida.innerHTML = html + saida.innerHTML;
@@ -487,7 +487,6 @@ async function carregar() {
   if (!EU.producao) $('#f-emitir input[value="teste"]').checked = true;
   marcarAmbiente();
 
-  renderPlano(EU, planos);
   renderKPIs(EU);
   renderProximosPassos(EU);
   renderUltimasNotas(EU);

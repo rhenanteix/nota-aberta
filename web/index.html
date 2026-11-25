@@ -217,7 +217,7 @@
         <div class="planos" id="planos" aria-live="polite">
           <p class="dica">Carregando os planos…</p>
         </div>
-        <p class="centro dica" style="margin-top: 16px;">Todos os planos incluem: notas de serviço e produto, calculadora CBS/IBS, API, MCP, certificado criptografado.</p>
+        <p class="centro dica plano-note">Todos os planos incluem: notas de serviço e produto, calculadora CBS/IBS, API, MCP, certificado criptografado.</p>
       </section>
 
       <section class="caixa section developer-panel" id="dev" aria-labelledby="dev-title">
@@ -252,8 +252,8 @@ curl -X POST https://api.emiteai.com.br/v1/notas \
           </div>
         </div>
         <div>
-          <h3 style="margin-top: 0;">O que a API resolve</h3>
-          <ul style="line-height: 2; color: #c9c5e6; font-size: 13px;">
+          <h3 class="api-resolve-title">O que a API resolve</h3>
+          <ul class="api-resolve-list">
             <li>Emissão assíncrona com webhook de status</li>
             <li>Consulta de notas por período, status, tomador</li>
             <li>Cancelamento e carta de correção</li>
@@ -261,7 +261,7 @@ curl -X POST https://api.emiteai.com.br/v1/notas \
             <li>Gestão de empresas e certificados</li>
             <li>Chaves com escopo e validade configuráveis</li>
           </ul>
-          <a class="botao" href="/api/swagger-ui.html" style="margin-top: 12px;">Documentação completa ↗</a>
+          <a class="botao api-doc-link" href="/api/swagger-ui.html">Documentação completa ↗</a>
         </div>
       </section>
 

@@ -1101,6 +1101,27 @@ button.secundario {
   border-color: var(--acento);
   margin-top: 12px;
 }
+.developer-panel .api-resolve-title {
+  margin-top: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #f6f5ff;
+}
+.developer-panel .api-resolve-list {
+  line-height: 2;
+  color: #c9c5e6;
+  font-size: 13px;
+  padding-left: 20px;
+}
+.developer-panel .api-doc-link {
+  margin-top: 12px;
+  display: inline-block;
+}
+.plano-note {
+  margin-top: 16px;
+  font-size: 13px;
+  color: var(--suave);
+}
 .code-window {
   background: var(--escuro-2);
   border: 1px solid #35305a;
@@ -1979,7 +2000,11 @@ button.secundario {
   margin-top: 16px;
 }
 .cobranca h3 { margin: 0 0 16px; font-size: 16px; }
-.cobranca img { border-radius: 8px; background: #fff; }
+.cobranca .qrcode-img {
+  border-radius: 8px;
+  background: #fff;
+  max-width: 200px;
+}
 .cobranca code {
   display: block;
   background: #16142b;
@@ -1991,6 +2016,178 @@ button.secundario {
   margin: 8px 0;
 }
 .cobranca .dica { margin-top: 16px; }
+
+/* ===== FILTROS ===== */
+.filtros {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+  align-items: end;
+}
+.filtro-item {
+  flex: 1;
+  min-width: 140px;
+}
+.filtro-item:first-child { min-width: 180px; }
+
+/* ===== SCROLL UTILITY ===== */
+.scroll-x { overflow-x: auto; }
+
+/* ===== MCP BOX ===== */
+.mcp-box {
+  background: #fbfaff;
+  border: 1px solid var(--borda);
+  border-radius: 12px;
+  padding: 20px;
+}
+.mcp-url-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+.mcp-url-row code {
+  flex: 1;
+  min-width: 200px;
+  background: #efecff;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+}
+.mcp-hint {
+  font-size: 12px;
+  color: var(--suave);
+  margin: 0;
+}
+
+/* ===== INPUT READONLY ===== */
+.input-readonly {
+  background: #f5f4fa !important;
+}
+
+/* ===== SECTION HEAD ===== */
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+/* ===== DANGER ZONE ===== */
+.danger-zone {
+  border-color: #ffd9ca;
+  background: #fffaf5;
+}
+.danger-zone h2 { color: #c2410c; }
+.acoes-danger { gap: 8px; }
+.danger-btn {
+  border-color: #ff7a59;
+  color: #c2410c;
+}
+.danger-btn-primary {
+  background: #ff7a59;
+  border-color: #ff7a59;
+}
+
+/* ===== CERT FORM ===== */
+.cert-form {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--borda);
+}
+
+/* ===== PLANO ATUAL KPI CARDS ===== */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 20px;
+}
+.kpi-card {
+  background: #fbfaff;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid var(--borda);
+}
+.kpi-card label {
+  font-size: 11px;
+  color: var(--suave);
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  display: block;
+  margin-bottom: 8px;
+}
+.kpi-card h3 {
+  margin: 0;
+  font-size: 22px;
+}
+
+/* ===== PLANO CARDS IN FINANCEIRO ===== */
+.plano-card {
+  border: 1px solid var(--borda);
+  border-radius: 16px;
+  padding: 25px;
+  gap: 20px;
+  display: flex;
+  flex-direction: column;
+}
+.plano-card.destaque {
+  border: 2px solid var(--marca);
+  background: #f4f2ff;
+}
+.plano-card h3 { font-size: 17px; }
+.plano-card .preco { font-size: 32px; font-weight: 600; letter-spacing: -1px; }
+.plano-card .preco span { font-size: 12px; letter-spacing: 0; }
+.plano-card ul { font-size: 12px; color: var(--suave); line-height: 1.9; margin: 0; padding-left: 18px; flex: 1; }
+.plano-card .acoes { margin-top: auto; display: flex; gap: 12px; }
+.plano-card .acoes .botao,
+.plano-card .acoes .secundario { flex: 1; }
+.plano-current {
+  background: #e7e5f2;
+  color: var(--suave);
+  cursor: default;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+/* ===== COBRANCA MODAL ===== */
+.cobranca {
+  grid-column: 1 / -1;
+  background: #fbfaff;
+  border: 1px solid var(--borda);
+  border-radius: 14px;
+  padding: 24px;
+  margin-top: 16px;
+}
+.cobranca h3 { margin: 0 0 16px; font-size: 16px; }
+.cobranca img { border-radius: 8px; background: #fff; max-width: 200px; }
+.cobranca code {
+  display: block;
+  background: #16142b;
+  color: #d6f65a;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 11px;
+  word-break: break-all;
+  margin: 8px 0;
+}
+.cobranca .dica { margin-top: 16px; }
+
+/* ===== PASSO ITEMS ===== */
+.passo-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--borda);
+}
+.passo-item:last-child { border-bottom: none; }
 
 /* ===== SIDEBAR TOGGLE ===== */
 .sidebar-toggle {
