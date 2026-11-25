@@ -46,7 +46,7 @@ PERMITIDAS = [
     ("POST", re.compile(r"^/calculadora/base-calculo/[A-Za-z0-9_\-]+$")),
     ("POST", re.compile(r"^/calculadora/nfse/[A-Za-z0-9/_\-]+$")),
     ("POST", re.compile(r"^/calculadora/xml/(generate|validate)$")),
-    ("GET", re.compile(r"^/(swagger-ui\.html|swagger-ui/[A-Za-z0-9._\-/]+|api-docs(/[A-Za-z0-9._\-]+)?)$")),
+    ("GET", re.compile(r"^/api-docs(/[A-Za-z0-9._\-]+)?$")),
 ]
 TIPOS = {".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8",
          ".css": "text/css; charset=utf-8", ".svg": "image/svg+xml", ".txt": "text/plain; charset=utf-8",
@@ -283,6 +283,16 @@ class Porta(BaseHTTPRequestHandler):
     def _repassar(self):
         caminho, _, consulta = self.path.partition("?")
         api = caminho[len("/api"):]
+
+        # Servir Swagger UI localmente para evitar problemas de MIME type do backend
+        if api.startswith("/swagger-ui/") or api == "/swagger-ui.html":
+            nome = "index.html" if api == "/swagger-ui.html" else api[len("/swagger-ui/"):]
+            arq = WEB / "swagger-ui" / nome
+            if arq.is_file():
+                return self._enviar(200, arq.read_bytes(), TIPOS.get(arq.suffix, "application/octet-stream"),
+                                    {"Cache-Control": "no-cache"})
+            return self._json(404, {"erro": "não encontrado"})
+
         if not permitida("GET" if self.command == "HEAD" else self.command, api):
             return self._json(404, {"erro": "rota fora da API pública", "rota": api})
         if not TETO.aceita(self._ip()):
