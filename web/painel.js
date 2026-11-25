@@ -389,9 +389,15 @@ async function carregarFinanceiro() {
     </div>
     <div class="acoes">
       ${p.id !== "gratis" ? `<button type="button" class="secundario" id="cancelar-plano">Cancelar assinatura</button>` : ""}
-      <a href="#planos-disponiveis" class="botao secundario" onclick="showSection('financeiro');setTimeout(()=>document.getElementById('planos-disponiveis').scrollIntoView({behavior:'smooth'}),100)">Ver todos os planos</a>
+      <a href="#planos-disponiveis" class="botao secundario ver-planos">Ver todos os planos</a>
     </div>
   `;
+
+  $("#plano-detalhes .ver-planos").onclick = (e) => {
+    e.preventDefault();
+    showSection('financeiro');
+    setTimeout(() => document.getElementById('planos-disponiveis').scrollIntoView({behavior:'smooth'}), 100);
+  };
 
   const outros = planos.filter((x) => x.preco_mes > p.preco_mes || (x.preco_mes === 0 && p.id !== "gratis"));
   $("#planos-painel").innerHTML = outros.map((o, i) => `
