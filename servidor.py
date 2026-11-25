@@ -293,6 +293,14 @@ class Porta(BaseHTTPRequestHandler):
                                     {"Cache-Control": "no-cache"})
             return self._json(404, {"erro": "não encontrado"})
 
+        # Servir OpenAPI spec localmente (evita 502 se backend não expõe)
+        if api == "/api-docs":
+            arq = WEB / "swagger-ui" / "api-docs.json"
+            if arq.is_file():
+                return self._enviar(200, arq.read_bytes(), "application/json; charset=utf-8",
+                                    {"Cache-Control": "no-cache"})
+            return self._json(404, {"erro": "não encontrado"})
+
         if not permitida("GET" if self.command == "HEAD" else self.command, api):
             return self._json(404, {"erro": "rota fora da API pública", "rota": api})
         if not TETO.aceita(self._ip()):

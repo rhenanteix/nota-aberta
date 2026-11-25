@@ -1,0 +1,182 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "EmiteAI API",
+    "description": "API para emissão de NFS-e (padrão nacional) e NF-e modelo 55, com calculadora CBS/IBS oficial da Receita Federal.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "EmiteAI",
+      "url": "https://emiteai.com.br"
+    }
+  },
+  "servers": [
+    { "url": "https://nota-aberta.onrender.com", "description": "Produção" }
+  ],
+  "paths": {
+    "/calculadora/observabilidade/regime-geral": {
+      "post": {
+        "summary": "Calcula CBS e IBS (regime geral)",
+        "operationId": "calcularCBSIBS",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CalculadoraRequest" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Cálculo realizado", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/CalculadoraResponse" } } } },
+          "400": { "description": "Erro de validação" },
+          "502": { "description": "Motor indisponível" }
+        }
+      }
+    },
+    "/calculadora/dados-abertos/versao": {
+      "get": {
+        "summary": "Versão do motor e base de tabelas",
+        "operationId": "versaoMotor",
+        "responses": { "200": { "description": "OK", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/VersaoMotor" } } } } }
+      }
+    },
+    "/calculadora/dados-abertos/ufs": {
+      "get": {
+        "summary": "Lista de UFs",
+        "operationId": "listarUfs",
+        "responses": { "200": { "description": "OK", "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/UF" } } } } } }
+      }
+    },
+    "/calculadora/dados-abertos/ufs/municipios": {
+      "get": {
+        "summary": "Municípios por UF",
+        "operationId": "listarMunicipios",
+        "parameters": [{ "name": "siglaUf", "in": "query", "required": true, "schema": { "type": "string" } }],
+        "responses": { "200": { "description": "OK", "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Municipio" } } } } } }
+      }
+    },
+    "/calculadora/dados-abertos/csts": {
+      "get": {
+        "summary": "CSTs vigentes na data",
+        "operationId": "listarCsts",
+        "parameters": [{ "name": "data", "in": "query", "required": true, "schema": { "type": "string", "format": "date" } }],
+        "responses": { "200": { "description": "OK", "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/CST" } } } } } }
+      }
+    },
+    "/calculadora/dados-abertos/cclasstrib": {
+      "get": {
+        "summary": "cClassTrib vigentes na data",
+        "operationId": "listarCClassTrib",
+        "parameters": [{ "name": "data", "in": "query", "required": true, "schema": { "type": "string", "format": "date" } }],
+        "responses": { "200": { "description": "OK", "content": { "application/json": { "schema": { "type": "array", "items": { "$ref": "#/components/schemas/CClassTrib" } } } } } }
+      }
+    },
+    "/calculadora/dados-abertos/aliquotas-referencia": {
+      "get": {
+        "summary": "Alíquotas de referência CBS/IBS",
+        "operationId": "aliquotasReferencia",
+        "parameters": [{ "name": "data", "in": "query", "required": true, "schema": { "type": "string", "format": "date" } }],
+        "responses": { "200": { "description": "OK", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/AliquotasReferencia" } } } } }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": { "type": "http", "scheme": "bearer", "bearerFormat": "JWT" }
+    },
+    "schemas": {
+      "CalculadoraRequest": {
+        "type": "object",
+        "required": ["id", "versao", "dhFatoGerador", "municipio", "uf", "itens"],
+        "properties": {
+          "id": { "type": "string", "example": "minha-op-123" },
+          "versao": { "type": "string", "example": "1.0.0" },
+          "dhFatoGerador": { "type": "string", "format": "date-time", "example": "2027-03-10T10:00:00-03:00" },
+          "municipio": { "type": "integer", "example": 4314902 },
+          "uf": { "type": "string", "example": "RS" },
+          "itens": { "type": "array", "items": { "$ref": "#/components/schemas/CalculadoraItem" } }
+        }
+      },
+      "CalculadoraItem": {
+        "type": "object",
+        "required": ["numero", "nbs", "cst", "cClassTrib", "baseCalculo"],
+        "properties": {
+          "numero": { "type": "integer", "example": 1 },
+          "nbs": { "type": "string", "example": "122011200" },
+          "cst": { "type": "string", "example": "200" },
+          "cClassTrib": { "type": "string", "example": "200028" },
+          "baseCalculo": { "type": "number", "format": "decimal", "example": 1200.00 },
+          "aliquotasNominais": { "$ref": "#/components/schemas/AliquotasNominais" }
+        }
+      },
+      "AliquotasNominais": {
+        "type": "object",
+        "properties": {
+          "cbs": { "type": "number", "format": "decimal", "example": 8.8 },
+          "ibsEstadual": { "type": "number", "format": "decimal", "example": 0.05 },
+          "ibsMunicipal": { "type": "number", "format": "decimal", "example": 0.05 }
+        }
+      },
+      "CalculadoraResponse": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "versao": { "type": "string" },
+          "itens": { "type": "array", "items": { "$ref": "#/components/schemas/CalculadoraItemResponse" } },
+          "memoriaCalculo": { "type": "object" }
+        }
+      },
+      "CalculadoraItemResponse": {
+        "type": "object",
+        "properties": {
+          "numero": { "type": "integer" },
+          "cbs": { "$ref": "#/components/schemas/TributoCalculado" },
+          "ibsEstadual": { "$ref": "#/components/schemas/TributoCalculado" },
+          "ibsMunicipal": { "$ref": "#/components/schemas/TributoCalculado" },
+          "impostoSeletivo": { "$ref": "#/components/schemas/TributoCalculado" }
+        }
+      },
+      "TributoCalculado": {
+        "type": "object",
+        "properties": {
+          "baseCalculo": { "type": "number", "format": "decimal" },
+          "aliquotaNominal": { "type": "number", "format": "decimal" },
+          "aliquotaEfetiva": { "type": "number", "format": "decimal" },
+          "valor": { "type": "string" },
+          "reducao": { "type": "number", "format": "decimal" }
+        }
+      },
+      "VersaoMotor": {
+        "type": "object",
+        "properties": {
+          "versaoMotor": { "type": "string" },
+          "versaoTabelas": { "type": "string" },
+          "commitMotor": { "type": "string" }
+        }
+      },
+      "UF": {
+        "type": "object",
+        "properties": { "sigla": { "type": "string" }, "nome": { "type": "string" } }
+      },
+      "Municipio": {
+        "type": "object",
+        "properties": { "codigo": { "type": "integer" }, "nome": { "type": "string" } }
+      },
+      "CST": {
+        "type": "object",
+        "properties": { "cst": { "type": "string" }, "descricao": { "type": "string" }, "reducao": { "type": "number" } }
+      },
+      "CClassTrib": {
+        "type": "object",
+        "properties": { "cClassTrib": { "type": "string" }, "descricao": { "type": "string" } }
+      },
+      "AliquotasReferencia": {
+        "type": "object",
+        "properties": {
+          "cbs": { "type": "number" },
+          "ibsEstadual": { "type": "number" },
+          "ibsMunicipal": { "type": "number" }
+        }
+      }
+    }
+  }
+}
