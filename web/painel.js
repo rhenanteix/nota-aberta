@@ -130,7 +130,7 @@ function renderPlano(eu, planos) {
           html += `<p>Escaneie o QR Code ou copie o código:</p>
             <img src="${esc(cob.brCodeBase64)}" alt="QR Code PIX" class="qrcode-img" />
             <p><code>${esc(cob.brCode)}</code></p>
-            <button type="button" class="secundario" onclick="navigator.clipboard.writeText('${esc(cob.brCode)}')">Copiar código</button>`;
+            <button type="button" class="secundario copiar-pix" data-codigo="${esc(cob.brCode)}">Copiar código</button>`;
         } else {
           html += `<p>Boleto gerado. Pague até ${esc(cob.expiresAt ? cob.expiresAt.slice(0,10) : "")}.</p>
             <p><a href="${esc(cob.url)}" target="_blank" rel="noopener">Abrir boleto (PDF)</a></p>
@@ -139,6 +139,9 @@ function renderPlano(eu, planos) {
         }
         html += `<p class="dica">Após o pagamento, clique em "Já assinei: atualizar" para ativar o plano.</p></div>`;
         saida.innerHTML = html;
+        saida.querySelectorAll(".copiar-pix").forEach(btn => {
+          btn.onclick = () => navigator.clipboard.writeText(btn.dataset.codigo);
+        });
       } catch (err) {
         saida.querySelector("p.dica")?.remove();
         const p = document.createElement("p");
@@ -418,7 +421,7 @@ async function carregarFinanceiro() {
           html += `<p>Escaneie o QR Code ou copie o código:</p>
             <img src="${esc(cob.brCodeBase64)}" alt="QR Code PIX" class="qrcode-img" />
             <p><code>${esc(cob.brCode)}</code></p>
-            <button type="button" class="secundario" onclick="navigator.clipboard.writeText('${esc(cob.brCode)}')">Copiar código</button>`;
+            <button type="button" class="secundario copiar-pix" data-codigo="${esc(cob.brCode)}">Copiar código</button>`;
         } else {
           html += `<p>Boleto gerado. Pague até ${esc(cob.expiresAt ? cob.expiresAt.slice(0,10) : "")}.</p>
             <p><a href="${esc(cob.url)}" target="_blank" rel="noopener">Abrir boleto (PDF)</a></p>
@@ -427,6 +430,9 @@ async function carregarFinanceiro() {
         }
         html += `<p class="dica">Após o pagamento, clique em "Já assinei: atualizar" no plano atual para ativar.</p></div>`;
         saida.innerHTML = html + saida.innerHTML;
+        saida.querySelectorAll(".copiar-pix").forEach(btn => {
+          btn.onclick = () => navigator.clipboard.writeText(btn.dataset.codigo);
+        });
       } catch (err) {
         alert(err.message);
       }
